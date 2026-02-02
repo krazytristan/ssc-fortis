@@ -52,7 +52,7 @@ const committees = [
     name: "Technical Operations",
     members: [
       { name: "Bejay Allen G. Macatangay", role: "Committee Head", photo: "assets/bejay.jpg" },
-      { name: "Charles Lois Neil Tan Viñalon", role: "Member", photo: "assets/Charles.jpg" },
+      { name: "Charles Lois Neil Tan Viñalon", role: "Member", photo: "assets/charles.jpg" },
     ],
   },
   {

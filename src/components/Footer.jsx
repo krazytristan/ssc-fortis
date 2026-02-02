@@ -50,25 +50,25 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="relative bg-darkblue text-yellow pt-16 pb-8 overflow-hidden">
+      <footer className="relative bg-darkblue text-yellow pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-6 grid gap-12 md:grid-cols-4">
 
-          {/* ================= BRAND ================= */}
+          {/* BRAND */}
           <div className="space-y-4 text-center md:text-left">
             <div className="flex justify-center md:justify-start gap-3">
               <img
-                src="/assets/ssc-logo.png"
+                src="assets/ssc-logo.png"
                 alt="SSC Logo"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                className="w-10 h-10 object-contain"
               />
               <img
-                src="/assets/ssc-seal.png"
+                src="assets/ssc-seal.png"
                 alt="SSC Seal"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                className="w-10 h-10 object-contain"
               />
             </div>
 
-            <h3 className="font-extrabold tracking-wide text-lg">
+            <h3 className="font-extrabold tracking-wide text-base">
               SUPREME STUDENT COUNCIL
             </h3>
 
@@ -83,38 +83,38 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* ================= CAMPUS INFO ================= */}
+          {/* CAMPUS INFO */}
           <div className="space-y-3 text-center md:text-left">
-            <h4 className="font-bold tracking-wide uppercase">
+            <h4 className="font-bold uppercase tracking-wide text-sm">
               {TEXT[lang].campus}
             </h4>
 
-            <p className="font-semibold">
+            <p className="font-semibold text-sm">
               AMA Computer College Lipa Campus
             </p>
 
-            <p className="flex items-center justify-center md:justify-start gap-2 text-yellow/80">
+            <p className="flex items-center justify-center md:justify-start gap-2 text-yellow/80 text-sm">
               <FaMapMarkerAlt />
               Ayala Highway, Brgy. Balintawak
             </p>
 
-            <p className="text-yellow/70">
+            <p className="text-yellow/70 text-sm">
               Lipa City, Batangas
             </p>
           </div>
 
-          {/* ================= CONNECT ================= */}
+          {/* CONNECT */}
           <div className="space-y-4 text-center md:text-left">
-            <h4 className="font-bold tracking-wide uppercase">
+            <h4 className="font-bold uppercase tracking-wide text-sm">
               {TEXT[lang].connect}
             </h4>
 
-            <div className="flex justify-center md:justify-start gap-4 text-lg">
+            <div className="flex justify-center md:justify-start gap-3">
               <a
                 href="https://web.facebook.com/profile.php?id=61580744985540"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
+                className="p-2.5 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
               >
                 <FaFacebookF />
               </a>
@@ -123,20 +123,20 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
+                className="p-2.5 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
               >
                 <FaInstagram />
               </a>
 
               <a
                 href="mailto:ssc.amacclipa@gmail.com"
-                className="p-3 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
+                className="p-2.5 rounded-full bg-yellow text-darkblue hover:bg-maroon hover:text-yellow transition"
               >
                 <FaEnvelope />
               </a>
             </div>
 
-            {/* ================= SUB ORGANIZATIONS ================= */}
+            {/* STUDENT ORGS */}
             <div className="pt-4">
               <h5 className="text-xs font-bold uppercase tracking-wide mb-3 text-yellow/80">
                 {TEXT[lang].orgs}
@@ -144,25 +144,25 @@ export default function Footer() {
 
               <div className="flex justify-center md:justify-start flex-wrap gap-4">
                 {[
-                  { src: "/assets/cba-logo.png", alt: "College of Business Administration" },
-                  { src: "/assets/engineering-logo.png", alt: "Engineering Students Society" },
-                  { src: "/assets/ccs-matrix.png", alt: "MATRIX Organization" },
-                  { src: "/assets/ccs-iconnect.png", alt: "iConnect Organization" },
+                  { src: "assets/cba-logo.png", alt: "College of Business Administration" },
+                  { src: "assets/engineering-logo.png", alt: "Engineering Students Society" },
+                  { src: "assets/ccs-matrix.png", alt: "MATRIX Organization" },
+                  { src: "assets/ccs-iconnect.png", alt: "iConnect Organization" },
                 ].map((org, i) => (
                   <img
                     key={i}
                     src={org.src}
                     alt={org.alt}
-                    className="w-8 h-8 md:w-9 md:h-9 object-contain opacity-90 hover:opacity-100 transition"
+                    className="w-8 h-8 object-contain opacity-80 hover:opacity-100 transition"
                   />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* ================= LEGAL ================= */}
+          {/* LEGAL */}
           <div className="space-y-3 text-center md:text-left">
-            <h4 className="font-bold tracking-wide uppercase">
+            <h4 className="font-bold uppercase tracking-wide text-sm">
               {TEXT[lang].legal}
             </h4>
 
@@ -189,7 +189,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ================= BOTTOM ================= */}
+        {/* FOOTER BOTTOM */}
         <div className="mt-10 text-center text-xs text-yellow/60">
           © {year} Supreme Student Council – AMA Computer College Lipa Campus
           <br />
@@ -207,7 +207,7 @@ export default function Footer() {
         )}
       </footer>
 
-      {/* ================= MODALS ================= */}
+      {/* MODALS */}
       {showConstitution && (
         <Modal title={TEXT[lang].constitution} onClose={() => setShowConstitution(false)}>
           Governing document of the Supreme Student Council. PDF version coming soon.
@@ -224,11 +224,12 @@ export default function Footer() {
 }
 
 /* ================= MODAL ================= */
+
 function Modal({ title, children, onClose }) {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 px-4">
-      <div className="bg-darkblue text-yellow max-w-lg w-full rounded-2xl p-6 shadow-2xl">
-        <h3 className="text-xl font-bold mb-4">{title}</h3>
+      <div className="bg-darkblue text-yellow max-w-md w-full rounded-2xl p-6 shadow-2xl">
+        <h3 className="text-lg font-bold mb-3">{title}</h3>
         <div className="text-sm text-yellow/90">{children}</div>
         <div className="mt-6 text-right">
           <button
