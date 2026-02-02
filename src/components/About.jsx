@@ -2,7 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 /* ================= YEARS ================= */
-const foundingYear = 2018;
+const foundingYear = 2025;
 const currentYear = new Date().getFullYear();
 
 /* ================= DATA ================= */
@@ -35,8 +35,8 @@ const stats = [
 ];
 
 const coreOfficers = [
-  { name: "John Mark M. Espiritu", role: "President", photo: "assets/jm.jpg" },
-  { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/regine.jpg" },
+  { name: "John Mark M. Espiritu", role: "President", photo: "assets/JohnMark.jpg" },
+  { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/Suarez.jpg" },
   { name: "Kathleen Thea D. Recede", role: "External Vice President", photo: "assets/kthea.jpg" },
   { name: "Vanessa Mendoza Sangalang", role: "Secretary", photo: "assets/vanessa.jpg" },
 ];
@@ -52,7 +52,7 @@ const committees = [
     name: "Technical Operations",
     members: [
       { name: "Bejay Allen G. Macatangay", role: "Committee Head", photo: "assets/bejay.jpg" },
-      { name: "Charles Lois Neil Tan Viñalon", role: "Member", photo: "assets/charles.jpg" },
+      { name: "Charles Lois Neil Tan Viñalon", role: "Member", photo: "assets/CharlesLois.jpg" },
     ],
   },
   {
@@ -64,7 +64,7 @@ const committees = [
   {
     name: "Finance & Audit",
     members: [
-      { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/kath.jpg" },
+      { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/Kathsapon.jpg" },
     ],
   },
   {
