@@ -7,7 +7,6 @@ export default function Navbar() {
   const [active, setActive] = useState("hero");
   const [pdfOpen, setPdfOpen] = useState(false);
 
-  // Navigation links
   const links = [
     { label: "Hero", id: "hero" },
     { label: "About", id: "about" },
@@ -16,7 +15,6 @@ export default function Navbar() {
     { label: "Officers", id: "officers" },
   ];
 
-  /* ================= ACTIVE LINK ON SCROLL ================= */
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + 140;
@@ -39,17 +37,17 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [open, links]); // ✅ FIXED: added `links`
+  }, [open, links]);
 
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 bg-darkblue/70 backdrop-blur-lg border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
 
-          {/* ================= LOGO ================= */}
+          {/* LOGO */}
           <a href="#hero" className="flex items-center gap-3 group">
             <img
-              src="/assets/ssc-logo.png"
+              src="assets/ssc-logo.png" // ✅ PUBLIC ASSET FIX
               alt="SSC Logo"
               className="w-9 h-9 object-contain group-hover:scale-105 transition"
             />
@@ -65,20 +63,17 @@ export default function Navbar() {
             </div>
           </a>
 
-          {/* ================= DESKTOP LINKS ================= */}
+          {/* DESKTOP LINKS */}
           <div className="hidden md:flex items-center space-x-8 font-semibold text-sm">
             {links.map((link) => (
               <a
                 key={link.id}
                 href={`#${link.id}`}
-                className={`
-                  relative px-2 py-1 transition-all duration-300
-                  ${
-                    active === link.id
-                      ? "text-yellow after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-yellow"
-                      : "text-yellow/70 hover:text-yellow/90"
-                  }
-                `}
+                className={`relative px-2 py-1 transition-all duration-300 ${
+                  active === link.id
+                    ? "text-yellow after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-yellow"
+                    : "text-yellow/70 hover:text-yellow/90"
+                }`}
               >
                 {link.label}
               </a>
@@ -92,17 +87,16 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* ================= MOBILE TOGGLE ================= */}
+          {/* MOBILE TOGGLE */}
           <button
             onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
-            className="md:hidden text-3xl text-yellow focus:outline-none"
+            className="md:hidden text-3xl text-yellow"
           >
             {open ? "✕" : "☰"}
           </button>
         </div>
 
-        {/* ================= MOBILE MENU ================= */}
+        {/* MOBILE MENU */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -117,14 +111,11 @@ export default function Navbar() {
                     key={link.id}
                     href={`#${link.id}`}
                     onClick={() => setOpen(false)}
-                    className={`
-                      px-4 py-2 rounded-lg transition
-                      ${
-                        active === link.id
-                          ? "bg-maroon text-yellow"
-                          : "text-yellow/80 hover:bg-maroon/60"
-                      }
-                    `}
+                    className={`px-4 py-2 rounded-lg ${
+                      active === link.id
+                        ? "bg-maroon text-yellow"
+                        : "text-yellow/80 hover:bg-maroon/60"
+                    }`}
                   >
                     {link.label}
                   </a>
@@ -145,7 +136,6 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* ================= BY-LAWS MODAL ================= */}
       <ByLaws isOpen={pdfOpen} onClose={() => setPdfOpen(false)} />
     </>
   );
