@@ -19,8 +19,8 @@ const accomplishments = [
     title: "TEACHERS MONTH CELEBRATION",
     subtitle: "Celebrating educators and leadership",
     text: "A tribute honoring educators through performances, appreciation messages, and student-led initiatives.",
-    cover: "assets/img1.jpg",
-    images: ["assets/img1.jpg", "assets/img2.jpg", "assets/img3.jpg"],
+    cover: "assets/img1.JPG",
+    images: ["assets/img1.JPG", "assets/img2.JPG", "assets/img3.JPG"],
   },
   {
     title: "NSTP PROJECT COLLABORATION",

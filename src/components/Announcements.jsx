@@ -30,7 +30,14 @@ Let’s celebrate love, creativity, and community while empowering student leade
 and making campus life unforgettable.`,
   date: "February 12, 2026",
   venue: "AMA Computer College – Lipa",
-  images: ["/assets/lint1.jpg", "/assets/lint2.jpg", "/assets/lint3.jpg"],
+
+  /* ✅ FIXED: PUBLIC ASSET PATHS */
+  images: [
+    "assets/lint1.jpg",
+    "assets/lint2.jpg",
+    "assets/lint3.jpg",
+  ],
+
   activities: [
     { icon: <FaMusic />, label: "Request Song Booth" },
     { icon: <FaMicrophone />, label: "Radio Broadcasting Station" },
@@ -119,7 +126,7 @@ function FloatingHearts() {
   );
 }
 
-/* ================= COMPONENT ================= */
+/* ================= MAIN COMPONENT ================= */
 
 export default function Announcements() {
   const [open, setOpen] = useState(false);
@@ -134,7 +141,7 @@ export default function Announcements() {
 
   return (
     <>
-      {/* ================= SECTION ================= */}
+      {/* SECTION */}
       <section
         id="news"
         className="relative py-20 px-4 bg-maroon text-yellow overflow-hidden"
@@ -156,10 +163,6 @@ export default function Announcements() {
               <FaStar /> FEATURED
             </div>
 
-            <div className="w-16 h-16 bg-maroon/10 rounded-full flex items-center justify-center mb-4 text-2xl text-maroon">
-              <FaHeart />
-            </div>
-
             <h3 className="text-3xl font-extrabold mb-1">
               {announcement.title}
             </h3>
@@ -174,7 +177,7 @@ export default function Announcements() {
 
             <button
               onClick={() => setOpen(true)}
-              className="mt-8 bg-maroon text-yellow px-7 py-3 rounded-full font-semibold shadow-lg hover:bg-darkblue hover:text-yellow transition"
+              className="mt-8 bg-maroon text-yellow px-7 py-3 rounded-full font-semibold shadow-lg hover:bg-darkblue transition"
             >
               View Full Details
             </button>
@@ -182,7 +185,7 @@ export default function Announcements() {
         </div>
       </section>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       <AnimatePresence>
         {open && (
           <>
@@ -200,41 +203,12 @@ export default function Announcements() {
               animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
               exit={{ opacity: 0, scale: 0.85 }}
             >
-              <h3 className="text-3xl font-bold mb-3">
-                {announcement.title}
-              </h3>
-
-              <div className="flex gap-4 text-sm mb-5">
-                <div className="flex items-center gap-2">
-                  <FaCalendarAlt /> {announcement.date}
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaMapMarkerAlt /> {announcement.venue}
-                </div>
-              </div>
-
-              <p className="whitespace-pre-line mb-6 text-yellow/90">
-                {announcement.details}
-              </p>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                {announcement.activities.map((act, i) => (
-                  <div
-                    key={i}
-                    className="bg-yellow/10 rounded-xl p-3 flex items-center gap-3"
-                  >
-                    <span className="text-xl">{act.icon}</span>
-                    <span className="text-sm">{act.label}</span>
-                  </div>
-                ))}
-              </div>
-
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                 {announcement.images.map((img, i) => (
                   <img
                     key={i}
                     src={img}
-                    alt=""
+                    alt="Event"
                     className="rounded-xl object-cover h-28 w-full"
                   />
                 ))}
