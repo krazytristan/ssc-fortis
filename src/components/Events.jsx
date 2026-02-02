@@ -3,6 +3,12 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 const events = [
   {
+    title: "Local Sportfest",
+    date: "To Be Announced",
+    description:
+      "A campus-wide sports celebration promoting teamwork, school spirit, and healthy competition among students.",
+  },
+  {
     title: "AMA Summit 2026",
     date: "To Be Announced",
     description:
@@ -36,7 +42,7 @@ export default function Events() {
         Upcoming Events
       </h2>
 
-      <div className="relative z-10 grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
         {events.map((event, i) => (
           <motion.div
             key={i}
@@ -49,7 +55,7 @@ export default function Events() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.2 }}
+            transition={{ duration: 0.6, delay: i * 0.15 }}
           >
             {/* DATE */}
             <div className="flex items-center gap-3 mb-4 text-maroon">
@@ -60,7 +66,7 @@ export default function Events() {
             </div>
 
             {/* TITLE */}
-            <h3 className="text-2xl font-bold mb-3">
+            <h3 className="text-xl font-bold mb-3">
               {event.title}
             </h3>
 

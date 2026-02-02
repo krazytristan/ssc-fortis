@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import {
@@ -13,12 +13,34 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [consent, setConsent] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+
+  const lastScrollY = useRef(0);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  /* ================= SCROLL BEHAVIOR ================= */
+  useEffect(() => {
+    const handleScroll = () => {
+      const current = window.scrollY;
+
+      // Hide on scroll down, show on scroll up
+      if (current > lastScrollY.current && current > 200) {
+        setShowButton(false);
+      } else {
+        setShowButton(true);
+      }
+
+      lastScrollY.current = current;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,29 +68,34 @@ export default function Contact() {
         setFormData({ name: "", email: "", message: "" });
         setConsent(false);
       })
-      .catch((err) => {
-        console.error(err);
-        alert("Failed to send message.");
-      })
+      .catch(() => alert("Failed to send message."))
       .finally(() => setLoading(false));
   };
 
   return (
     <>
       {/* ================= FLOATING BUTTON ================= */}
-      <button
-        onClick={() => setOpen(true)}
-        className="
-          fixed bottom-6 right-6 z-50
-          bg-yellow text-maroon
-          p-4 rounded-full shadow-xl
-          hover:bg-maroon hover:text-yellow
-          transition transform hover:scale-110
-        "
-        aria-label="Contact Us"
-      >
-        <FaCommentDots className="text-xl" />
-      </button>
+      <AnimatePresence>
+        {!open && showButton && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setOpen(true)}
+            className="
+              fixed bottom-24 right-6 z-40
+              bg-yellow text-maroon
+              p-4 rounded-full shadow-xl
+              hover:bg-maroon hover:text-yellow
+              transition transform hover:scale-110
+            "
+            aria-label="Contact Us"
+          >
+            <FaCommentDots className="text-xl" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* ================= CONTACT MODAL ================= */}
       <AnimatePresence>
@@ -126,7 +153,6 @@ export default function Contact() {
                   className="w-full p-3 rounded-xl bg-yellow text-darkblue font-semibold"
                 />
 
-                {/* DATA PRIVACY */}
                 <label className="flex items-start gap-2 text-sm text-yellow/80">
                   <input
                     type="checkbox"
@@ -143,11 +169,10 @@ export default function Contact() {
                   type="submit"
                   disabled={loading || !consent}
                   className="
-                    w-full mt-2 bg-yellow text-maroon font-bold
+                    w-full bg-yellow text-maroon font-bold
                     py-3 rounded-full
                     hover:bg-maroon hover:text-yellow
-                    transition
-                    disabled:opacity-50
+                    transition disabled:opacity-50
                   "
                 >
                   {loading ? "Sending..." : "Send Message"}
