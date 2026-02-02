@@ -32,7 +32,7 @@ Let’s celebrate love, creativity, and community while empowering student leade
 and making campus life unforgettable.`,
   date: "February 12, 2026",
   venue: "AMA Computer College – Lipa",
-  images: ["/assets/lint1.jpg", "/assets/lint2.jpg", "/assets/lint3.jpg"],
+  images: ["assets/lint1.jpg", "assets/lint2.jpg", "assets/lint3.jpg"],
   activities: [
     { icon: FaMusic, label: "Request Song Booth" },
     { icon: FaMicrophone, label: "Radio Broadcasting Station" },
