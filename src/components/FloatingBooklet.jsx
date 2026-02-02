@@ -19,34 +19,34 @@ const accomplishments = [
     title: "TEACHERS MONTH CELEBRATION",
     subtitle: "Celebrating educators and leadership",
     text: "A tribute honoring educators through performances, appreciation messages, and student-led initiatives.",
-    cover: "/assets/img1.jpg",
-    images: ["/assets/img1.jpg", "/assets/img2.jpg", "/assets/img3.jpg"],
+    cover: "assets/img1.jpg",
+    images: ["assets/img1.jpg", "assets/img2.jpg", "assets/img3.jpg"],
   },
   {
     title: "NSTP PROJECT COLLABORATION",
     subtitle: "Community & Environmental Outreach",
     text: "A joint outreach initiative fostering civic responsibility, sustainability, and teamwork.",
-    cover: "/assets/nstp1.jpg",
-    images: ["/assets/nstp1.jpg", "/assets/nstp2.jpg", "/assets/nstp3.jpg"],
+    cover: "assets/nstp1.jpg",
+    images: ["assets/nstp1.jpg", "assets/nstp2.jpg", "assets/nstp3.jpg"],
   },
   {
     title: "CHRISTMAS STATION ID 2025",
     subtitle: "Unity, Hope & Service",
     text: "A creative production celebrating unity, hope, and service through the holiday season.",
-    cover: "/assets/id1.jpg",
-    images: ["/assets/id1.jpg", "/assets/id2.jpg", "/assets/id3.jpg"],
+    cover: "assets/id1.jpg",
+    images: ["assets/id1.jpg", "assets/id2.jpg", "assets/id3.jpg"],
   },
   {
     title: "PARTNERSHIP WITH PROJECT SPARK",
     subtitle: "Community & Outreach",
     text: "A collaborative initiative promoting sustainability, student engagement, and community development.",
-    cover: "/assets/spark1.jpg",
+    cover: "assets/spark1.jpg",
     images: [
-      "/assets/spark1.jpg",
-      "/assets/spark2.jpg",
-      "/assets/spark3.jpg",
-      "/assets/spark4.jpg",
-      "/assets/spark5.jpg",
+      "assets/spark1.jpg",
+      "assets/spark2.jpg",
+      "assets/spark3.jpg",
+      "assets/spark4.jpg",
+      "assets/spark5.jpg",
     ],
   },
 ];
@@ -62,14 +62,8 @@ export default function FloatingBooklet() {
   /* ===============================
      SIDE EFFECTS
   ================================= */
-
-  // Lock background scroll + ESC close
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = open ? "hidden" : "";
 
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
@@ -117,9 +111,7 @@ export default function FloatingBooklet() {
 
   return (
     <>
-      {/* ===============================
-          FLOATING BUTTON
-      ================================ */}
+      {/* FLOATING BUTTON */}
       <AnimatePresence>
         {!open && (
           <motion.div
@@ -127,19 +119,13 @@ export default function FloatingBooklet() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.4 }}
           >
             <button
               onClick={() => setOpen(true)}
-              className="
-                flex items-center gap-2
-                bg-maroon/80 backdrop-blur-md text-yellow
-                px-4 py-3 rounded-r-full shadow-xl
-                hover:bg-maroon hover:scale-105 transition
-              "
+              className="flex items-center gap-2 bg-maroon/80 backdrop-blur-md text-yellow px-4 py-3 rounded-r-full shadow-xl hover:bg-maroon hover:scale-105 transition"
             >
-              <FaBookOpen className="text-lg" />
-              <span className="hidden md:inline font-semibold tracking-wide">
+              <FaBookOpen />
+              <span className="hidden md:inline font-semibold">
                 Accomplishments
               </span>
             </button>
@@ -147,41 +133,31 @@ export default function FloatingBooklet() {
         )}
       </AnimatePresence>
 
-      {/* ===============================
-          MODAL
-      ================================ */}
+      {/* MODAL */}
       <AnimatePresence>
         {open && (
           <>
-            {/* OVERLAY */}
             <motion.div
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/60 z-40"
               onClick={() => setOpen(false)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
 
-            {/* MODAL */}
             <motion.div
-              className="
-                fixed z-50 top-1/2 left-1/2
-                w-[92%] max-w-5xl h-[85vh]
-                bg-white/95 backdrop-blur-xl
-                rounded-2xl shadow-[0_0_60px_rgba(128,0,0,0.4)]
-                flex flex-col overflow-hidden
-              "
+              className="fixed z-50 top-1/2 left-1/2 w-[92%] max-w-5xl h-[85vh] bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl flex flex-col overflow-hidden"
               initial={{ opacity: 0, scale: 0.85, x: "-50%", y: "-50%" }}
               animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
               exit={{ opacity: 0, scale: 0.85 }}
             >
               {/* HEADER */}
               <div className="bg-maroon/90 text-yellow px-5 py-3 flex justify-between items-center">
-                <h2 className="font-bold text-xs md:text-sm tracking-widest">
+                <h2 className="font-bold text-xs tracking-widest">
                   SUPREME STUDENT COUNCIL
                 </h2>
 
-                <div className="flex items-center gap-2">
+                <div className="flex gap-2">
                   {showBackButton && (
                     <button
                       onClick={() =>
@@ -189,25 +165,18 @@ export default function FloatingBooklet() {
                           ? setStage("grid")
                           : setStage("cover")
                       }
-                      className="bg-yellow text-maroon px-3 py-1 rounded text-xs hover:bg-maroon hover:text-yellow"
+                      className="bg-yellow text-maroon px-3 py-1 rounded text-xs"
                     >
                       Back
                     </button>
                   )}
-
                   <button
                     onClick={exportPDF}
-                    className="bg-yellow text-maroon px-3 py-1 rounded text-xs hover:bg-maroon hover:text-yellow"
+                    className="bg-yellow text-maroon px-3 py-1 rounded text-xs"
                   >
                     PDF
                   </button>
-
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-bold"
-                  >
-                    ✕
-                  </button>
+                  <button onClick={() => setOpen(false)}>✕</button>
                 </div>
               </div>
 
@@ -219,9 +188,6 @@ export default function FloatingBooklet() {
                       key="cover"
                       className="absolute inset-0 cursor-pointer"
                       onClick={() => setStage("grid")}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
                     >
                       <CoverPage data={coverPage} />
                     </motion.div>
@@ -231,9 +197,6 @@ export default function FloatingBooklet() {
                     <motion.div
                       key="grid"
                       className="absolute inset-0 flex flex-wrap justify-center gap-5"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                     >
                       {accomplishments.map((item, i) => (
                         <MiniBookMagazine
@@ -249,13 +212,7 @@ export default function FloatingBooklet() {
                   )}
 
                   {stage === "detail" && selectedIndex !== null && (
-                    <motion.div
-                      key="detail"
-                      className="absolute inset-0 p-2"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                    >
+                    <motion.div key="detail" className="absolute inset-0 p-2">
                       <DetailMagazine
                         data={accomplishments[selectedIndex]}
                       />
@@ -278,7 +235,7 @@ export default function FloatingBooklet() {
 function CoverPage({ data }) {
   return (
     <div
-      className="h-full w-full flex items-center justify-center text-center rounded-xl overflow-hidden"
+      className="h-full w-full flex items-center justify-center text-center"
       style={{
         backgroundImage: `url(${data.coverImage})`,
         backgroundSize: "cover",
@@ -287,7 +244,7 @@ function CoverPage({ data }) {
     >
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 text-yellow px-6">
-        <h1 className="text-3xl md:text-4xl font-extrabold">{data.title}</h1>
+        <h1 className="text-3xl font-extrabold">{data.title}</h1>
         <h2 className="text-lg font-semibold">{data.subtitle}</h2>
         <p className="tracking-widest text-sm">{data.year}</p>
         <p className="mt-2 text-xs opacity-80">Tap to view accomplishments</p>
@@ -320,10 +277,9 @@ function DetailMagazine({ data }) {
         alt={data.title}
         className="w-full h-64 rounded-xl object-cover"
       />
-
       <h3 className="text-xl font-bold text-maroon">{data.title}</h3>
       <h4 className="text-sm font-semibold text-gray-700">{data.subtitle}</h4>
-      <p className="text-sm text-gray-800 leading-relaxed">{data.text}</p>
+      <p className="text-sm text-gray-800">{data.text}</p>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {data.images.map((img, i) => (
