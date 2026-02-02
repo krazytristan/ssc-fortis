@@ -6,15 +6,16 @@ import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const members = [
   { name: "Mr. Tristan Jorge Cuartero", role: "Adviser", photo: "assets/adviser.jpg", type: "Adviser" },
-  { name: "John Mark M. Espiritu", role: "President", photo: "assets/jm.jpg", type: "Officer" },
-  { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/regine.jpg", type: "Officer" },
+  { name: "John Mark M. Espiritu", role: "President", photo: "assets/JohnMark.jpg", type: "Officer" },
+  { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/Suarez.jpg", type: "Officer" },
   { name: "Kathleen Thea D. Recede", role: "External Vice President", photo: "assets/kthea.jpg", type: "Officer" },
   { name: "Vanessa Mendoza Sangalang", role: "Secretary", photo: "assets/vanessa.jpg", type: "Officer" },
   { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/kath.jpg", type: "Officer" },
   { name: "Nadine G. De Guzman", role: "Board of Director", photo: "assets/nadine.jpg", type: "Officer" },
   { name: "Marvin Paul Orozco", role: "Board of Director", photo: "assets/marvin.jpg", type: "Officer" },
   { name: "Benji Alurin Maquina", role: "Committee Head – Gender and Development", photo: "assets/benji.jpg", type: "Officer" },
-  { name: "Charles Lois Neil Tan Viñalon", role: "Committee Head – Technical Operations", photo: "assets/charles.jpg", type: "Officer" },
+  { name: "Rodolfo Guce III", role: "Committee Head – Health nad Sports", photo: "assets/dither.jpg", type: "Officer" },
+  { name: "Charles Lois Neil Tan Viñalon", role: "Committee Head – Technical Operations", photo: "assets/CharlesLois.jpg", type: "Officer" },
   { name: "Bejay Allen G. Macatangay", role: "Committee Head – Technical Operations", photo: "assets/bejay.jpg", type: "Officer" },
   { name: "Florencio John B. Fonte III", role: "Graphic Designer / Layout", photo: "assets/fonte.jpg", type: "Officer" },
 ];

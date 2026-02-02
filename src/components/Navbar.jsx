@@ -4,22 +4,31 @@ import ByLaws from "./ByLaws";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("home"); // 🔧 updated
+  const [active, setActive] = useState("home");
   const [pdfOpen, setPdfOpen] = useState(false);
 
   const links = [
-    { label: "Home", id: "home" }, // 🔧 updated
+    { label: "Home", id: "home" },
     { label: "About", id: "about" },
     { label: "News", id: "news" },
     { label: "Events", id: "events" },
     { label: "Officers", id: "officers" },
   ];
 
+  /* ================= ACTIVE LINK ON SCROLL ================= */
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + 140;
 
+      // If at top → Home active
+      if (window.scrollY < 100) {
+        setActive("home");
+        return;
+      }
+
       for (const link of links) {
+        if (link.id === "home") continue;
+
         const section = document.getElementById(link.id);
         if (!section) continue;
 
@@ -39,19 +48,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [open, links]);
 
+  const goHome = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setActive("home");
+  };
+
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 bg-darkblue/70 backdrop-blur-lg border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
 
           {/* LOGO */}
-          <a href="#home" className="flex items-center gap-3 group">
+          <button onClick={goHome} className="flex items-center gap-3 group">
             <img
               src="assets/ssc-logo.png"
               alt="SSC Logo"
               className="w-9 h-9 object-contain group-hover:scale-105 transition"
             />
-            <div className="leading-tight text-yellow">
+            <div className="leading-tight text-yellow text-left">
               <div className="text-sm md:text-base font-extrabold tracking-widest">
                 SUPREME STUDENT COUNCIL
               </div>
@@ -61,23 +75,37 @@ export default function Navbar() {
                 Transformative Institutional Service
               </div>
             </div>
-          </a>
+          </button>
 
-          {/* DESKTOP LINKS */}
+          {/* ================= DESKTOP LINKS ================= */}
           <div className="hidden md:flex items-center space-x-8 font-semibold text-sm">
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                className={`relative px-2 py-1 transition-all duration-300 ${
-                  active === link.id
-                    ? "text-yellow after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-yellow"
-                    : "text-yellow/70 hover:text-yellow/90"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link) =>
+              link.id === "home" ? (
+                <button
+                  key={link.id}
+                  onClick={goHome}
+                  className={`relative px-2 py-1 transition-all duration-300 ${
+                    active === "home"
+                      ? "text-yellow after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-yellow"
+                      : "text-yellow/70 hover:text-yellow/90"
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ) : (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  className={`relative px-2 py-1 transition-all duration-300 ${
+                    active === link.id
+                      ? "text-yellow after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-0.5 after:bg-yellow"
+                      : "text-yellow/70 hover:text-yellow/90"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              )
+            )}
 
             <button
               onClick={() => setPdfOpen(true)}
@@ -87,7 +115,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* MOBILE TOGGLE */}
+          {/* ================= MOBILE TOGGLE ================= */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden text-3xl text-yellow"
@@ -97,7 +125,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* ================= MOBILE MENU ================= */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -107,20 +135,37 @@ export default function Navbar() {
               className="md:hidden bg-darkblue/90 backdrop-blur-lg border-t border-white/10"
             >
               <div className="flex flex-col px-6 py-4 space-y-3 font-semibold text-base">
-                {links.map((link) => (
-                  <a
-                    key={link.id}
-                    href={`#${link.id}`}
-                    onClick={() => setOpen(false)}
-                    className={`px-4 py-2 rounded-lg ${
-                      active === link.id
-                        ? "bg-maroon text-yellow"
-                        : "text-yellow/80 hover:bg-maroon/60"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {links.map((link) =>
+                  link.id === "home" ? (
+                    <button
+                      key={link.id}
+                      onClick={() => {
+                        goHome();
+                        setOpen(false);
+                      }}
+                      className={`px-4 py-2 rounded-lg text-left ${
+                        active === "home"
+                          ? "bg-maroon text-yellow"
+                          : "text-yellow/80 hover:bg-maroon/60"
+                      }`}
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <a
+                      key={link.id}
+                      href={`#${link.id}`}
+                      onClick={() => setOpen(false)}
+                      className={`px-4 py-2 rounded-lg ${
+                        active === link.id
+                          ? "bg-maroon text-yellow"
+                          : "text-yellow/80 hover:bg-maroon/60"
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  )
+                )}
 
                 <button
                   onClick={() => {
@@ -137,6 +182,7 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
+      {/* BY-LAWS MODAL */}
       <ByLaws isOpen={pdfOpen} onClose={() => setPdfOpen(false)} />
     </>
   );
