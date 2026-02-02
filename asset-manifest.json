@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/ssc-fortis/static/css/main.32f76357.css",
-    "main.js": "/ssc-fortis/static/js/main.4c764302.js",
+    "main.css": "/ssc-fortis/static/css/main.8e9758fd.css",
+    "main.js": "/ssc-fortis/static/js/main.49666cc8.js",
     "static/js/239.87573224.chunk.js": "/ssc-fortis/static/js/239.87573224.chunk.js",
     "static/js/977.4e74caa1.chunk.js": "/ssc-fortis/static/js/977.4e74caa1.chunk.js",
     "static/js/455.1af67e3e.chunk.js": "/ssc-fortis/static/js/455.1af67e3e.chunk.js",
     "static/media/ssc-video.mp4": "/ssc-fortis/static/media/ssc-video.ac615fb31c8ea83ccc72.mp4",
     "static/media/qrcode.jpg": "/ssc-fortis/static/media/qrcode.f828c9904fb3ef84b095.jpg",
     "index.html": "/ssc-fortis/index.html",
-    "main.32f76357.css.map": "/ssc-fortis/static/css/main.32f76357.css.map",
-    "main.4c764302.js.map": "/ssc-fortis/static/js/main.4c764302.js.map",
+    "main.8e9758fd.css.map": "/ssc-fortis/static/css/main.8e9758fd.css.map",
+    "main.49666cc8.js.map": "/ssc-fortis/static/js/main.49666cc8.js.map",
     "239.87573224.chunk.js.map": "/ssc-fortis/static/js/239.87573224.chunk.js.map",
     "977.4e74caa1.chunk.js.map": "/ssc-fortis/static/js/977.4e74caa1.chunk.js.map",
     "455.1af67e3e.chunk.js.map": "/ssc-fortis/static/js/455.1af67e3e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.32f76357.css",
-    "static/js/main.4c764302.js"
+    "static/css/main.8e9758fd.css",
+    "static/js/main.49666cc8.js"
   ]
 }
