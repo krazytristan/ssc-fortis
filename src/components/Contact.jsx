@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import {
@@ -13,9 +13,7 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [consent, setConsent] = useState(false);
-  const [showButton, setShowButton] = useState(true);
-
-  const lastScrollY = useRef(0);
+  const [showButton, setShowButton] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,25 +21,24 @@ export default function Contact() {
     message: "",
   });
 
-  /* ================= SCROLL BEHAVIOR ================= */
+  /* ================= HERO VISIBILITY ================= */
   useEffect(() => {
-    const handleScroll = () => {
-      const current = window.scrollY;
+    const heroSection = document.getElementById("hero");
+    if (!heroSection) return;
 
-      // Hide on scroll down, show on scroll up
-      if (current > lastScrollY.current && current > 200) {
-        setShowButton(false);
-      } else {
-        setShowButton(true);
-      }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowButton(entry.isIntersecting);
+      },
+      { threshold: 0.4 }
+    );
 
-      lastScrollY.current = current;
-    };
+    observer.observe(heroSection);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => observer.disconnect();
   }, []);
 
+  /* ================= FORM HANDLERS ================= */
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -84,13 +81,13 @@ export default function Contact() {
             transition={{ duration: 0.3 }}
             onClick={() => setOpen(true)}
             className="
-              fixed bottom-24 right-6 z-40
+              fixed bottom-6 right-6 z-40
               bg-yellow text-maroon
               p-4 rounded-full shadow-xl
               hover:bg-maroon hover:text-yellow
               transition transform hover:scale-110
             "
-            aria-label="Contact Us"
+            aria-label="Contact SSC"
           >
             <FaCommentDots className="text-xl" />
           </motion.button>
@@ -153,6 +150,7 @@ export default function Contact() {
                   className="w-full p-3 rounded-xl bg-yellow text-darkblue font-semibold"
                 />
 
+                {/* DATA PRIVACY */}
                 <label className="flex items-start gap-2 text-sm text-yellow/80">
                   <input
                     type="checkbox"
