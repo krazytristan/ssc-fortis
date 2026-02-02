@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# production
+build/
+dist/
+
+# environment
+.env
+.env.local
+.env.production
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# cache
+.cache/
+node_modules/.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# large media (IMPORTANT for your issue)
+src/assets/*.mp4
+src/assets/*.mov
+public/assets/*.mp4
+public/assets/*.mov
