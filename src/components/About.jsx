@@ -28,33 +28,52 @@ const aboutCards = [
   },
 ];
 
-const timeline = [
-  { year: foundingYear, event: "Establishment of the Supreme Student Council" },
-  { year: foundingYear + 2, event: "Launch of student-led leadership programs" },
-  { year: foundingYear + 5, event: "Expansion of community outreach initiatives" },
-  { year: currentYear, event: "SSC-FORTIS era begins with innovation-driven leadership" },
-];
-
 const stats = [
   { label: "Years of Service", value: currentYear - foundingYear },
   { label: "Major Events", value: 15 },
   { label: "Student Leaders", value: 30 },
 ];
 
-const committees = [
-  { name: "Technical Operations", progress: 90 },
-  { name: "Gender and Development", progress: 85 },
-  { name: "Events & Programs", progress: 95 },
-  { name: "Documentation & Secretariat", progress: 80 },
-  { name: "Creatives & Media", progress: 88 },
-  { name: "Finance & Audit", progress: 75 },
+const coreOfficers = [
+  { name: "John Mark M. Espiritu", role: "President", photo: "assets/jm.jpg" },
+  { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/regine.jpg" },
+  { name: "Kathleen Thea D. Recede", role: "External Vice President", photo: "assets/kthea.jpg" },
+  { name: "Vanessa Mendoza Sangalang", role: "Secretary", photo: "assets/vanessa.jpg" },
 ];
 
-const coreOfficers = [
-  { name: "John Mark M. Espiritu", role: "President", photo: "/assets/john.jpg" },
-  { name: "Regine Suarez Candido", role: "External Vice President", photo: "/assets/reg.png" },
-  { name: "Kathleen Thea D. Recede", role: "External Vice President", photo: "/assets/kthea.jpg" },
-  { name: "Vanessa Mendoza Sangalang", role: "Secretary", photo: "/assets/vanessa.jpg" },
+const committees = [
+  {
+    name: "Gender and Development",
+    members: [
+      { name: "Benji Alurin Maquina", role: "Committee Head", photo: "assets/benji.jpg" },
+    ],
+  },
+  {
+    name: "Technical Operations",
+    members: [
+      { name: "Bejay Allen G. Macatangay", role: "Committee Head", photo: "assets/bejay.jpg" },
+      { name: "Charles Lois Neil Tan Viñalon", role: "Member", photo: "assets/Charles.jpg" },
+    ],
+  },
+  {
+    name: "Creatives & Media",
+    members: [
+      { name: "Florencio John B. Fonte III", role: "Graphic Designer", photo: "assets/fonte.jpg" },
+    ],
+  },
+  {
+    name: "Finance & Audit",
+    members: [
+      { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/kath.jpg" },
+    ],
+  },
+  {
+    name: "Board of Directors",
+    members: [
+      { name: "Nadine G. De Guzman", role: "Director", photo: "assets/nadine.jpg" },
+      { name: "Marvin Paul Orozco", role: "Director", photo: "assets/marvin.jpg" },
+    ],
+  },
 ];
 
 const achievements = [
@@ -90,41 +109,27 @@ function CountUp({ value }) {
   return <span ref={ref} className="text-3xl md:text-4xl font-bold">{count}+</span>;
 }
 
-/* ================= SWIPE VERTICAL CAROUSEL ================= */
+/* ================= VERTICAL CAROUSEL ================= */
 
 function VerticalCarousel({ items }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: false });
-  const [isDragging, setIsDragging] = useState(false);
 
   return (
-    <div
-      ref={ref}
-      className="relative overflow-hidden h-[300px] sm:h-[360px] md:h-[420px]"
-    >
-      {/* Fade edges */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-yellow to-transparent z-10" />
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-yellow to-transparent z-10" />
-
+    <div ref={ref} className="relative overflow-hidden h-[360px]">
       <motion.div
-        className="flex flex-col gap-6 cursor-grab active:cursor-grabbing"
-        drag="y"
-        dragConstraints={{ top: -400, bottom: 0 }}
-        dragElastic={0.15}
-        onDragStart={() => setIsDragging(true)}
-        onDragEnd={() => setIsDragging(false)}
-        animate={inView && !isDragging ? { y: ["0%", "-50%"] } : {}}
+        className="flex flex-col gap-5"
+        animate={inView ? { y: ["0%", "-50%"] } : {}}
         transition={{ duration: 22, ease: "linear", repeat: Infinity }}
       >
         {[...items, ...items].map((card, i) => (
           <div
             key={i}
-            className={`bg-gradient-to-br ${card.color}
-                        text-yellow p-6 rounded-3xl shadow-xl`}
+            className={`bg-gradient-to-br ${card.color} text-yellow p-5 rounded-2xl shadow-lg`}
           >
-            <div className="text-3xl mb-3">{card.icon}</div>
-            <h3 className="text-lg font-bold mb-2">{card.title}</h3>
-            <p className="text-sm text-yellow/90 leading-relaxed">{card.desc}</p>
+            <div className="text-2xl mb-2">{card.icon}</div>
+            <h3 className="text-base font-bold mb-1">{card.title}</h3>
+            <p className="text-sm text-yellow/90">{card.desc}</p>
           </div>
         ))}
       </motion.div>
@@ -137,7 +142,6 @@ function VerticalCarousel({ items }) {
 export default function About() {
   return (
     <section id="about" className="bg-yellow py-20 px-4 text-darkblue">
-      {/* HEADER */}
       <motion.div
         className="max-w-6xl mx-auto text-center mb-16"
         initial={{ opacity: 0, y: 30 }}
@@ -147,17 +151,14 @@ export default function About() {
         <h2 className="text-4xl md:text-5xl font-bold mb-4">
           About SSC-FORTIS
         </h2>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-darkblue/90">
+        <p className="text-lg max-w-3xl mx-auto text-darkblue/90">
           Developing leaders, empowering students, and creating meaningful impact.
         </p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto grid gap-20 lg:grid-cols-2">
-
-        {/* LEFT COLUMN */}
+        {/* LEFT */}
         <div className="space-y-20">
-
-          {/* STATS */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {stats.map((s, i) => (
               <div key={i} className="bg-darkblue text-yellow p-6 rounded-2xl text-center shadow-lg">
@@ -167,62 +168,28 @@ export default function About() {
             ))}
           </div>
 
-          {/* 🧭 TIMELINE (UPDATED) */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-10 text-center lg:text-left">
-              🧭 History of SSC
-            </h3>
-
-            <div className="relative grid gap-10">
-              <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-1 bg-maroon/30" />
-
-              {timeline.map((item, i) => (
-                <motion.div
-                  key={i}
-                  className={`relative flex flex-col sm:flex-row ${
-                    i % 2 === 0 ? "sm:flex-row-reverse" : ""
-                  }`}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="sm:w-1/2 px-6">
-                    <div className="bg-darkblue text-yellow p-5 rounded-xl shadow-lg">
-                      <h4 className="font-bold">{item.year}</h4>
-                      <p className="text-sm">{item.event}</p>
-                    </div>
-                  </div>
-
-                  <span className="absolute left-4 sm:left-1/2 top-4 -translate-x-1/2 w-5 h-5 bg-maroon border-4 border-yellow rounded-full" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* CORE OFFICERS */}
-          <div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">👥 Core Officers</h3>
+            <h3 className="text-2xl font-bold mb-8">👥 Core Officers</h3>
             <div className="grid grid-cols-2 gap-6">
               {coreOfficers.map((o, i) => (
-                <div key={i} className="bg-darkblue text-yellow p-5 rounded-xl text-center">
+                <div key={i} className="bg-darkblue text-yellow p-4 rounded-xl text-center">
                   <img
                     src={o.photo}
                     alt={o.name}
-                    className="w-20 h-20 mx-auto rounded-full border-4 border-yellow mb-3 object-cover"
+                    className="w-16 h-16 mx-auto rounded-full border-2 border-yellow mb-2 object-cover"
                   />
-                  <h4 className="font-bold text-sm">{o.name}</h4>
-                  <p className="text-xs text-yellow/80">{o.role}</p>
+                  <h4 className="font-semibold text-sm">{o.name}</h4>
+                  <p className="text-[11px] text-yellow/80">{o.role}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ACHIEVEMENTS */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">🏆 Achievements</h3>
-            <div className="grid gap-4">
+            <h3 className="text-2xl font-bold mb-8">🏆 Achievements</h3>
+            <div className="grid gap-3">
               {achievements.map((a, i) => (
-                <div key={i} className="bg-darkblue text-yellow p-4 rounded-xl">
+                <div key={i} className="bg-darkblue text-yellow p-4 rounded-xl text-sm">
                   {a}
                 </div>
               ))}
@@ -230,38 +197,49 @@ export default function About() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN */}
+        {/* RIGHT */}
         <div className="space-y-20">
-
-          {/* CAROUSEL */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">
-              🎯 Mission • Vision • Values
-            </h3>
+            <h3 className="text-2xl font-bold mb-8">🎯 Mission • Vision • Values</h3>
             <VerticalCarousel items={aboutCards} />
           </div>
 
-          {/* COMMITTEES */}
+          {/* COMMITTEES – SMALL CARDS */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8">🧑‍🤝‍🧑 Committees</h3>
-            <div className="grid gap-5">
+            <h3 className="text-2xl font-bold mb-8">🧑‍🤝‍🧑 Committees</h3>
+
+            <div className="grid md:grid-cols-2 gap-8">
               {committees.map((c, i) => (
-                <div key={i} className="bg-darkblue text-yellow p-5 rounded-xl">
-                  <div className="flex justify-between mb-2">
-                    <span>{c.name}</span>
-                    <span>{c.progress}%</span>
-                  </div>
-                  <div className="h-3 bg-yellow/20 rounded-full">
-                    <div
-                      className="h-3 bg-yellow rounded-full"
-                      style={{ width: `${c.progress}%` }}
-                    />
+                <div key={i}>
+                  <h4 className="text-lg font-semibold mb-3 text-maroon">
+                    {c.name}
+                  </h4>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    {c.members.map((m, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-darkblue text-yellow p-3 rounded-lg text-center"
+                      >
+                        <img
+                          src={m.photo}
+                          alt={m.name}
+                          className="w-14 h-14 mx-auto rounded-full border-2 border-yellow mb-2 object-cover"
+                        />
+                        <p className="text-xs font-semibold leading-tight">
+                          {m.name}
+                        </p>
+                        <p className="text-[10px] text-yellow/70">
+                          {m.role}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>

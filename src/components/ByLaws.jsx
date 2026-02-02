@@ -17,7 +17,7 @@ export default function ByLaws({ isOpen, onClose }) {
 
           {/* MODAL */}
           <motion.div
-            className="fixed z-50 top-1/2 left-1/2 w-[95%] md:w-[80%] h-[85%] md:h-[90%] 
+            className="fixed z-50 top-1/2 left-1/2 w-[95%] md:w-[80%] h-[85%] md:h-[90%]
                        bg-white/95 backdrop-blur-md rounded-xl shadow-2xl flex flex-col overflow-hidden"
             initial={{ opacity: 0, scale: 0.85, x: "-50%", y: "-50%" }}
             animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
@@ -25,19 +25,27 @@ export default function ByLaws({ isOpen, onClose }) {
           >
             {/* HEADER */}
             <div className="flex justify-between items-center bg-maroon text-yellow px-4 py-2 shadow-md">
-              <h3 className="font-bold text-sm md:text-base">SSC By Laws</h3>
+              <h3 className="font-bold text-sm md:text-base">
+                SSC By-Laws
+              </h3>
+
               <div className="flex gap-2">
+                {/* DOWNLOAD */}
                 <a
-                  href="/Handbook.pdf"
+                  href="assets/Handbook.pdf"   // ✅ FIXED
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-yellow text-maroon px-3 py-1 rounded hover:bg-maroon hover:text-yellow transition text-xs"
+                  className="bg-yellow text-maroon px-3 py-1 rounded
+                             hover:bg-maroon hover:text-yellow transition text-xs"
                 >
                   Download PDF
                 </a>
+
+                {/* CLOSE */}
                 <button
                   onClick={onClose}
                   className="text-xl hover:text-red-400 transition"
+                  aria-label="Close"
                 >
                   ✕
                 </button>
@@ -46,8 +54,8 @@ export default function ByLaws({ isOpen, onClose }) {
 
             {/* PDF DISPLAY */}
             <iframe
-              src="/Handbook.pdf"
-              title="SSC By Laws"
+              src="assets/Handbook.pdf"        // ✅ FIXED
+              title="SSC By-Laws"
               className="w-full h-full"
             />
           </motion.div>

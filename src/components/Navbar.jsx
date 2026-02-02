@@ -4,11 +4,11 @@ import ByLaws from "./ByLaws";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("hero");
+  const [active, setActive] = useState("home"); // 🔧 updated
   const [pdfOpen, setPdfOpen] = useState(false);
 
   const links = [
-    { label: "Hero", id: "hero" },
+    { label: "Home", id: "home" }, // 🔧 updated
     { label: "About", id: "about" },
     { label: "News", id: "news" },
     { label: "Events", id: "events" },
@@ -45,9 +45,9 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
 
           {/* LOGO */}
-          <a href="#hero" className="flex items-center gap-3 group">
+          <a href="#home" className="flex items-center gap-3 group">
             <img
-              src="assets/ssc-logo.png" // ✅ PUBLIC ASSET FIX
+              src="assets/ssc-logo.png"
               alt="SSC Logo"
               className="w-9 h-9 object-contain group-hover:scale-105 transition"
             />
@@ -91,6 +91,7 @@ export default function Navbar() {
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden text-3xl text-yellow"
+            aria-label="Toggle menu"
           >
             {open ? "✕" : "☰"}
           </button>
