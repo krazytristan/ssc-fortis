@@ -10,7 +10,7 @@ const members = [
   { name: "Regine Suarez Candido", role: "Internal Vice President", photo: "assets/Suarez.JPG", type: "Officer" },
   { name: "Kathleen Thea D. Recede", role: "External Vice President", photo: "assets/kthea.jpg", type: "Officer" },
   { name: "Vanessa Mendoza Sangalang", role: "Secretary", photo: "assets/vanessa.jpg", type: "Officer" },
-  { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/Kathsapon.jpg", type: "Officer" },
+  { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/Kathsapon.JPG", type: "Officer" },
   { name: "Nadine G. De Guzman", role: "Board of Director", photo: "assets/nadine.jpg", type: "Officer" },
   { name: "Marvin Paul Orozco", role: "Board of Director", photo: "assets/marvin.jpg", type: "Officer" },
   { name: "Benji Alurin Maquiñana", role: "Committee Head – Gender and Development", photo: "assets/benji.jpg", type: "Officer" },
