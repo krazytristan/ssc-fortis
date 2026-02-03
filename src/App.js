@@ -14,38 +14,59 @@ import CookieConsent from "./components/CookieConsent";
 
 function App() {
   return (
-    <div className="min-h-screen w-full font-sans text-gray-900 bg-white overflow-x-hidden">
-      
-      {/* 🔐 COOKIE CONSENT */}
+    <div
+      className="
+        relative isolate
+        min-h-screen w-full
+        font-sans text-gray-900
+        bg-white
+        overflow-x-hidden
+        print:bg-white
+      "
+    >
+      {/* 🔐 COOKIE CONSENT (TOP LAYER) */}
       <CookieConsent />
 
       {/* 🔝 NAVIGATION */}
       <Navbar />
 
-      {/* 🦸 HERO */}
-      <main className="relative">
+      {/* 🧠 MAIN CONTENT */}
+      <main className="relative z-0">
+        {/* 🦸 HERO */}
         <Hero />
 
-        {/* 📘 FLOATING ACCOMPLISHMENT BOOK */}
+        {/* 📘 FLOATING ACCOMPLISHMENT BOOK (GLOBAL MODAL) */}
         <FloatingBooklet />
 
         {/* 💳 MEMBERSHIP */}
-        <MembershipFee />
+        <section>
+          <MembershipFee />
+        </section>
 
         {/* ℹ️ ABOUT SSC */}
-        <About />
+        <section>
+          <About />
+        </section>
 
         {/* 📣 ANNOUNCEMENTS */}
-        <Announcements />
+        <section>
+          <Announcements />
+        </section>
 
         {/* 📅 UPCOMING EVENTS */}
-        <Events />
+        <section>
+          <Events />
+        </section>
 
         {/* 🏛️ SSC OFFICERS */}
-        <Officers />
+        <section>
+          <Officers />
+        </section>
 
         {/* 📬 CONTACT */}
-        <Contact />
+        <section>
+          <Contact />
+        </section>
       </main>
 
       {/* 🦶 FOOTER */}
