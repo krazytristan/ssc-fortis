@@ -16,3 +16,29 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+/* PRINT MODE */
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .no-print,
+  button,
+  .framer-motion-div {
+    display: none !important;
+  }
+
+  .print-page {
+    page-break-after: always;
+    padding: 40mm;
+  }
+
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    color: black !important;
+  }
+}

@@ -1,7 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css'; // <- tailwind import
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+const container = document.getElementById("root");
+
+if (!container) {
+  throw new Error("Root container missing in index.html");
+}
+
+const root = ReactDOM.createRoot(container);
+
+root.render(
+  // 🔴 Temporarily disable StrictMode to avoid:
+  // - double rendering
+  // - framer-motion glitches
+  // - confusing console logs
+  <App />
+);

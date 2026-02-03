@@ -9,45 +9,46 @@ import Officers from "./components/Officers";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
-/* ✅ NEW COMPONENTS */
+/* ✅ GLOBAL */
 import CookieConsent from "./components/CookieConsent";
 
 function App() {
   return (
-    <div className="font-sans text-gray-900">
+    <div className="min-h-screen w-full font-sans text-gray-900 bg-white overflow-x-hidden">
       
-      {/* 🔐 COOKIE CONSENT (GLOBAL) */}
+      {/* 🔐 COOKIE CONSENT */}
       <CookieConsent />
 
       {/* 🔝 NAVIGATION */}
       <Navbar />
 
       {/* 🦸 HERO */}
-      <Hero />
+      <main className="relative">
+        <Hero />
 
-      {/* 📘 FLOATING ACCOMPLISHMENT BOOK */}
-      <FloatingBooklet />
+        {/* 📘 FLOATING ACCOMPLISHMENT BOOK */}
+        <FloatingBooklet />
 
-      {/* 💳 MEMBERSHIP */}
-      <MembershipFee />
+        {/* 💳 MEMBERSHIP */}
+        <MembershipFee />
 
-      {/* ℹ️ ABOUT SSC */}
-      <About />
+        {/* ℹ️ ABOUT SSC */}
+        <About />
 
-      {/* 📣 ANNOUNCEMENTS */}
-      <Announcements />
+        {/* 📣 ANNOUNCEMENTS */}
+        <Announcements />
 
-      {/* 📅 UPCOMING EVENTS */}
-      <Events />
+        {/* 📅 UPCOMING EVENTS */}
+        <Events />
 
-      {/* 🏛️ SSC OFFICERS (CAROUSEL / HIGHLIGHT) */}
-      <Officers />
+        {/* 🏛️ SSC OFFICERS */}
+        <Officers />
 
+        {/* 📬 CONTACT */}
+        <Contact />
+      </main>
 
-      {/* 📬 CONTACT */}
-      <Contact />
-
-      {/* 🦶 FOOTER (LEGAL, PRIVACY, PDF, LOGOS, ETC.) */}
+      {/* 🦶 FOOTER */}
       <Footer />
     </div>
   );
