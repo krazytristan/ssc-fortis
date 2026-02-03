@@ -1,96 +1,208 @@
-import { useState } from "react";
+/* =========================================================
+   ANNOUNCEMENTS.JSX
+   Supreme Student Council Website
+   Full Version – ~500+ Lines
+   ========================================================= */
+
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+/* ================= ICONS ================= */
+
 import {
   FaHeart,
   FaStar,
+  FaComments,
+  FaEnvelope,
+  FaFacebook,
+  FaCalendarAlt,
+  FaBus,
   FaMusic,
+  FaMicrophone,
   FaCamera,
+  FaBookOpen,
   FaFilm,
   FaLightbulb,
   FaLaptopCode,
   FaCrown,
-  FaMicrophone,
   FaHamburger,
-  FaBookOpen,
-  FaComments,
-  FaEnvelope,
-  FaFacebook,
 } from "react-icons/fa";
 
-/* ================= FLOATING HEARTS ================= */
+/* =========================================================
+   FLOATING HEARTS BACKGROUND
+========================================================= */
 
 function FloatingHearts() {
-  const colors = [
-    "text-yellow-300",
-    "text-maroon",
-    "text-blue-400",
-    "text-green-400",
-  ];
-
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {[...Array(24)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
-          className={`absolute ${colors[i % colors.length]} opacity-30`}
+          className="absolute text-yellow-300 opacity-20"
           initial={{
             x: Math.random() * window.innerWidth,
             y: window.innerHeight + 100,
             scale: Math.random() * 0.6 + 0.4,
           }}
           animate={{
-            y: -150,
-            opacity: [0.2, 0.5, 0],
+            y: -200,
+            opacity: [0.2, 0.4, 0],
           }}
           transition={{
-            duration: Math.random() * 10 + 12,
+            duration: Math.random() * 12 + 12,
             repeat: Infinity,
             delay: Math.random() * 6,
             ease: "linear",
           }}
         >
-          <FaHeart className="text-2xl md:text-3xl" />
+          <FaHeart />
         </motion.div>
       ))}
     </div>
   );
 }
 
-/* ================= EVENT DATA ================= */
+/* =========================================================
+   LIVE COUNTDOWN COMPONENT
+   NUMBERS ONLY: DAYS / HOURS / MINUTES / SECONDS
+========================================================= */
 
-const eventAnnouncement = {
-  title: "LinTECH na FEB-Ibig 2.0",
-  tagline: "Where Love Meets Technology",
-  desc:
-    "Love, music, creativity, and innovation take over the campus this February!",
-  details: `Join us at LinTECH na FEB-Ibig 2.0, where technology meets passion and student
-talents come alive through exciting booths, performances, and competitions.
+function Countdown({ targetDate }) {
+  const [time, setTime] = useState({
+    d: 0,
+    h: 0,
+    m: 0,
+    s: 0,
+  });
 
-Let’s celebrate love, creativity, and community while empowering student leaders
-and making campus life unforgettable.`,
-  images: [
-    "assets/lint1.jpg",
-    "assets/lint2.jpg",
-    "assets/lint3.jpg",
-  ],
-  activities: [
-    { icon: FaMusic, label: "Request Song Booth" },
-    { icon: FaMicrophone, label: "Radio Broadcasting Station" },
-    { icon: FaBookOpen, label: "Confession into Story" },
-    { icon: FaCamera, label: "Photo Booth Studio" },
-    { icon: FaHeart, label: "Crochet Flowers for You" },
-    { icon: FaHamburger, label: "Food Tech Booth" },
-    { icon: FaFilm, label: "Movie Film Booth" },
-    { icon: FaLightbulb, label: "Pitching Competition" },
-    { icon: FaLaptopCode, label: "Web Design Competition" },
-    { icon: FaCrown, label: "Mr. & Ms. LinTECH na FEB-Ibig 2026" },
-  ],
-};
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const target = new Date(targetDate);
+      const diff = target - now;
 
-/* ================= MAIN COMPONENT ================= */
+      if (diff <= 0) {
+        clearInterval(interval);
+        return;
+      }
+
+      setTime({
+        d: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        h: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        m: Math.floor((diff / (1000 * 60)) % 60),
+        s: Math.floor((diff / 1000) % 60),
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  const boxClass =
+    "flex flex-col items-center bg-maroon text-yellow px-3 py-2 rounded-xl w-16 shadow-md";
+
+  return (
+    <div className="flex gap-3 mt-4">
+      <div className={boxClass}>
+        <span className="text-xl font-extrabold">
+          {String(time.d).padStart(2, "0")}
+        </span>
+        <span className="text-[10px]">DAYS</span>
+      </div>
+      <div className={boxClass}>
+        <span className="text-xl font-extrabold">
+          {String(time.h).padStart(2, "0")}
+        </span>
+        <span className="text-[10px]">HRS</span>
+      </div>
+      <div className={boxClass}>
+        <span className="text-xl font-extrabold">
+          {String(time.m).padStart(2, "0")}
+        </span>
+        <span className="text-[10px]">MIN</span>
+      </div>
+      <div className={boxClass}>
+        <span className="text-xl font-extrabold">
+          {String(time.s).padStart(2, "0")}
+        </span>
+        <span className="text-[10px]">SEC</span>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   MINI CALENDAR – FEBRUARY 2026
+========================================================= */
+
+function MiniCalendar() {
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    <div className="bg-darkblue border border-yellow/30 rounded-2xl p-4 text-yellow shadow-xl w-full max-w-[280px] mx-auto">
+      <div className="flex items-center gap-2 font-bold mb-3">
+        <FaCalendarAlt />
+        February 2026
+      </div>
+
+      {/* DAYS */}
+      <div className="grid grid-cols-7 gap-1 text-xs text-center text-yellow/70 mb-2">
+        {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
+          <div key={d}>{d}</div>
+        ))}
+      </div>
+
+      {/* DATES */}
+      <div className="grid grid-cols-7 gap-1 text-sm">
+        {[...Array(28)].map((_, i) => {
+          const day = i + 1;
+          const key = `2026-02-${String(day).padStart(2, "0")}`;
+
+          let style = "text-yellow/70";
+
+          if (key === today) {
+            style = "bg-maroon text-yellow ring-2 ring-yellow";
+          } else if (day === 12) {
+            style = "bg-pink-500 text-white";
+          } else if (day === 26) {
+            style = "bg-yellow text-maroon";
+          }
+
+          return (
+            <div
+              key={day}
+              className={`h-7 flex items-center justify-center rounded-full font-semibold ${style}`}
+            >
+              {day}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* LEGEND */}
+      <div className="mt-4 text-xs space-y-1">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-pink-500 rounded-full" />
+          LinTECH (Feb 12)
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-yellow rounded-full" />
+          Educational Tour (Feb 26)
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-maroon rounded-full" />
+          Today
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   MAIN ANNOUNCEMENTS COMPONENT
+========================================================= */
 
 export default function Announcements() {
-  const [openEvent, setOpenEvent] = useState(false);
+  const [openEvent, setOpenEvent] = useState(null);
   const [openFeedback, setOpenFeedback] = useState(false);
 
   return (
@@ -100,83 +212,123 @@ export default function Announcements() {
         id="news"
         className="relative py-20 px-4 bg-maroon text-yellow overflow-hidden"
       >
-        {/* FLOATING HEARTS */}
         <FloatingHearts />
 
         <h2 className="relative z-10 text-4xl md:text-5xl font-bold mb-14 text-center">
           Announcements
         </h2>
 
-        <div className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
-          {/* ================= FEATURED EVENT CARD ================= */}
-          <motion.div
-            className="relative bg-white text-darkblue p-8 rounded-3xl shadow-2xl ring-4 ring-yellow/70"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-          >
-            <div className="absolute -top-4 -right-4 bg-yellow text-maroon px-3 py-1 rounded-full text-xs font-bold flex gap-1">
-              <FaStar /> FEATURED
-            </div>
+        {/* ================= GRID ================= */}
+        <div className="relative z-10 max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
 
-            <h3 className="text-3xl font-extrabold mb-2">
-              {eventAnnouncement.title}
-            </h3>
+          {/* ================= LEFT ================= */}
+          <div className="md:col-span-2 grid sm:grid-cols-2 gap-8">
 
-            <p className="italic text-maroon/80 mb-4">
-              {eventAnnouncement.tagline}
-            </p>
-
-            <p className="text-darkblue/90 mb-6">
-              {eventAnnouncement.desc}
-            </p>
-
-            <button
-              onClick={() => setOpenEvent(true)}
-              className="bg-maroon text-yellow px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-darkblue transition"
+            {/* LINTECH CARD */}
+            <motion.div
+              className="bg-white text-darkblue p-6 rounded-3xl shadow-2xl ring-2 ring-yellow/70"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
-              View Event Details
-            </button>
-          </motion.div>
+              <div className="flex items-center gap-2 text-xs bg-yellow text-maroon px-3 py-1 rounded-full w-fit mb-2">
+                <FaStar /> FEATURED
+              </div>
 
-          {/* ================= FEEDBACK CARD ================= */}
-          <motion.div
-            className="bg-darkblue text-yellow p-8 rounded-3xl shadow-2xl border border-yellow/30"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-          >
-            <div className="flex items-center gap-3 mb-4 text-2xl">
-              <FaComments />
-              <h3 className="text-2xl font-bold">
-                Website Feedback
+              <h3 className="text-2xl font-extrabold mb-1">
+                LinTECH na FEB-Ibig 2.0
               </h3>
-            </div>
 
-            <p className="text-sm leading-relaxed mb-6 text-yellow/90">
-              Help us improve the SSC Website by sharing your experience,
-              suggestions, and ideas.
-              Your feedback is valuable in making this platform better for
-              everyone!
-              Let's work together to create an engaging and user-friendly website.
-            </p>
+              <p className="italic text-maroon/80 text-sm">
+                February 12, 2026
+              </p>
 
-            <button
-              onClick={() => setOpenFeedback(true)}
-              className="bg-yellow text-maroon px-6 py-3 rounded-full font-semibold hover:bg-white transition"
+              <Countdown targetDate="2026-02-12T00:00:00" />
+
+              <p className="text-sm mt-4">
+                A celebration of love, technology, creativity, student booths,
+                performances, and competitions.
+              </p>
+
+              <button
+                onClick={() => setOpenEvent("lintech")}
+                className="mt-4 bg-maroon text-yellow px-4 py-2 rounded-full text-sm font-semibold"
+              >
+                View Details
+              </button>
+            </motion.div>
+
+            {/* EDUC TOUR CARD */}
+            <motion.div
+              className="bg-darkblue text-yellow p-6 rounded-3xl shadow-2xl border border-yellow/30"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
-              View Feedback Announcement
-            </button>
-          </motion.div>
+              <div className="flex items-center gap-2 text-xs bg-yellow/20 px-3 py-1 rounded-full w-fit mb-2">
+                <FaBus /> ACADEMIC EVENT
+              </div>
+
+              <h3 className="text-2xl font-extrabold mb-1">
+                Educational Tour 2026
+              </h3>
+
+              <p className="italic text-yellow/80 text-sm">
+                February 26, 2026
+              </p>
+
+              <p className="text-sm mt-4">
+                Decoding ideas, connecting minds, and applying classroom
+                knowledge to real-world environments.
+              </p>
+
+              <button
+                onClick={() => setOpenEvent("tour")}
+                className="mt-4 bg-yellow text-maroon px-4 py-2 rounded-full text-sm font-semibold"
+              >
+                View Tour Details
+              </button>
+            </motion.div>
+
+            {/* FEEDBACK CARD */}
+            <motion.div
+              className="bg-darkblue text-yellow p-6 rounded-3xl shadow-2xl border border-yellow/30 sm:col-span-2"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+            >
+              <div className="flex items-center gap-2 mb-2 text-lg">
+                <FaComments />
+                <h3 className="font-bold">Website Feedback</h3>
+              </div>
+
+              <p className="text-sm mb-4">
+                Your feedback helps us improve accessibility, design,
+                performance, and user experience of the SSC Website.
+              </p>
+
+              <button
+                onClick={() => setOpenFeedback(true)}
+                className="bg-yellow text-maroon px-5 py-2 rounded-full text-sm font-semibold"
+              >
+                Give Feedback
+              </button>
+            </motion.div>
+          </div>
+
+          {/* ================= RIGHT ================= */}
+          <div className="self-start">
+            <MiniCalendar />
+          </div>
         </div>
       </section>
 
-      {/* ================= EVENT MODAL ================= */}
+      {/* =====================================================
+         EVENT MODAL
+      ===================================================== */}
       <AnimatePresence>
         {openEvent && (
           <>
             <motion.div
               className="fixed inset-0 bg-black/70 z-50"
-              onClick={() => setOpenEvent(false)}
+              onClick={() => setOpenEvent(null)}
             />
             <motion.div
               className="fixed z-[60] top-1/2 left-1/2 w-[95%] max-w-4xl
@@ -185,43 +337,46 @@ export default function Announcements() {
               initial={{ scale: 0.85, x: "-50%", y: "-50%" }}
               animate={{ scale: 1, x: "-50%", y: "-50%" }}
             >
-              <h3 className="text-3xl font-bold mb-4">
-                {eventAnnouncement.title}
+              <h3 className="text-3xl font-bold mb-6">
+                {openEvent === "lintech"
+                  ? "LinTECH na FEB-Ibig 2.0"
+                  : "Educational Tour 2026"}
               </h3>
 
-              <p className="whitespace-pre-line mb-6">
-                {eventAnnouncement.details}
-              </p>
+              {/* LINTECH ACTIVITIES */}
+              {openEvent === "lintech" && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm mb-6">
+                  <div className="flex gap-2"><FaMusic /> Request Song Booth</div>
+                  <div className="flex gap-2"><FaMicrophone /> Radio Broadcasting</div>
+                  <div className="flex gap-2"><FaBookOpen /> Confession into Story</div>
+                  <div className="flex gap-2"><FaCamera /> Photo Booth Studio</div>
+                  <div className="flex gap-2"><FaHamburger /> Food Tech Booth</div>
+                  <div className="flex gap-2"><FaFilm /> Movie Booth</div>
+                  <div className="flex gap-2"><FaLightbulb /> Pitching Competition</div>
+                  <div className="flex gap-2"><FaLaptopCode /> Web Design Competition</div>
+                  <div className="flex gap-2"><FaCrown /> Mr. & Ms. LinTECH</div>
+                </div>
+              )}
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                {eventAnnouncement.activities.map((a, i) => {
-                  const Icon = a.icon;
-                  return (
-                    <div
-                      key={i}
-                      className="bg-yellow/10 p-3 rounded-xl flex gap-3 items-center"
-                    >
-                      <Icon className="text-xl" />
-                      <span className="text-sm">{a.label}</span>
-                    </div>
-                  );
-                })}
-              </div>
+              {/* EDUC TOUR DETAILS */}
+              {openEvent === "tour" && (
+                <p className="whitespace-pre-line text-sm leading-relaxed mb-6">
+                📅 February 26, 2026
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                {eventAnnouncement.images.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt=""
-                    className="h-36 w-full object-cover rounded-xl"
-                  />
-                ))}
-              </div>
+                4:30 AM – Assembly @ School  
+                5:00 AM – Departure  
+                6:15 AM – Total San Pedro  
+                9:00–11:00 AM – PAGASA  
+                11:30 AM – Lunch @ MOA  
+                1:00–3:30 PM – BSP Money Museum  
+                4:30–7:00 PM – Enchanted Kingdom  
+                10:00 PM – ETA @ AMACC Lipa
+                </p>
+              )}
 
               <div className="text-right">
                 <button
-                  onClick={() => setOpenEvent(false)}
+                  onClick={() => setOpenEvent(null)}
                   className="bg-yellow text-maroon px-6 py-2 rounded-full font-semibold"
                 >
                   Close
@@ -232,7 +387,9 @@ export default function Announcements() {
         )}
       </AnimatePresence>
 
-      {/* ================= FEEDBACK MODAL ================= */}
+      {/* =====================================================
+         FEEDBACK MODAL
+      ===================================================== */}
       <AnimatePresence>
         {openFeedback && (
           <>
@@ -246,15 +403,13 @@ export default function Announcements() {
               initial={{ scale: 0.85, x: "-50%", y: "-50%" }}
               animate={{ scale: 1, x: "-50%", y: "-50%" }}
             >
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-xl font-bold mb-4">
                 📢 SSC Website Feedback
               </h3>
 
-              <p className="text-sm leading-relaxed mb-6">
-                Dear Students,<br /><br />
-                The Supreme Student Council (SSC) officially launched this
-                website for you. We invite your suggestions to improve design,
-                navigation, accessibility, and features.
+              <p className="text-sm mb-4">
+                By submitting feedback, you help us comply with continuous
+                improvement and student-centered service.
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -264,14 +419,14 @@ export default function Announcements() {
                   rel="noopener noreferrer"
                   className="bg-yellow text-maroon px-6 py-2 rounded-full font-semibold"
                 >
-                  Submit Feedback Form
+                  Submit Feedback
                 </a>
 
                 <a
                   href="mailto:ssc.amacclipa@gmail.com"
                   className="bg-yellow/20 px-6 py-2 rounded-full flex items-center gap-2"
                 >
-                  <FaEnvelope /> Email SSC
+                  <FaEnvelope /> Email
                 </a>
 
                 <a
@@ -280,17 +435,8 @@ export default function Announcements() {
                   rel="noopener noreferrer"
                   className="bg-yellow/20 px-6 py-2 rounded-full flex items-center gap-2"
                 >
-                  <FaFacebook /> Facebook Page
+                  <FaFacebook /> Facebook
                 </a>
-              </div>
-
-              <div className="text-right mt-6">
-                <button
-                  onClick={() => setOpenFeedback(false)}
-                  className="bg-yellow text-maroon px-6 py-2 rounded-full font-semibold"
-                >
-                  Close
-                </button>
               </div>
             </motion.div>
           </>
