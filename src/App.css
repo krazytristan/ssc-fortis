@@ -1,38 +1,48 @@
-.App {
-  text-align: center;
+/* ============================================================
+   NEWSPAPER / E-MAGAZINE STYLE (ADD-ON)
+============================================================ */
+
+/* Two-column article layout */
+.newspaper {
+  column-count: 1;
+  column-gap: 2rem;
+  text-align: justify;
+  line-height: 1.75;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Desktop: two columns */
+@media (min-width: 768px) {
+  .newspaper {
+    column-count: 2;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Prevent images from breaking columns */
+.newspaper img {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.App-link {
-  color: #61dafb;
+/* Improve paragraph spacing like real newspapers */
+.newspaper p {
+  margin-bottom: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Optional: subtle drop cap for first paragraph */
+.newspaper p:first-of-type::first-letter {
+  font-size: 3rem;
+  font-weight: bold;
+  float: left;
+  line-height: 1;
+  padding-right: 0.5rem;
+  color: #7a1c1c; /* maroon tone */
+}
+
+/* Gallery images hover (optional, safe) */
+.newspaper-gallery img:hover {
+  transform: scale(1.03);
+  transition: transform 0.2s ease-in-out;
 }

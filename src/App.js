@@ -16,7 +16,7 @@ function App() {
   return (
     <div
       className="
-        relative isolate
+        relative
         min-h-screen w-full
         font-sans text-gray-900
         bg-white
@@ -34,9 +34,6 @@ function App() {
       <main className="relative z-0">
         {/* 🦸 HERO */}
         <Hero />
-
-        {/* 📘 FLOATING ACCOMPLISHMENT BOOK (GLOBAL MODAL) */}
-        <FloatingBooklet />
 
         {/* 💳 MEMBERSHIP */}
         <section>
@@ -68,6 +65,9 @@ function App() {
           <Contact />
         </section>
       </main>
+
+      {/* 📘 FLOATING ACCOMPLISHMENT BOOK (GLOBAL OVERLAY) */}
+      <FloatingBooklet />
 
       {/* 🦶 FOOTER */}
       <Footer />

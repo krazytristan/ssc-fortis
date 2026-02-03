@@ -2,43 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: smooth scrolling */
+/* ============================================================
+   GLOBAL BEHAVIOR
+============================================================ */
+
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
-/* Hide scrollbar for all elements */
+
+/* ============================================================
+   SCROLLBAR (HIDDEN BUT SCROLLABLE)
+============================================================ */
+
+/* Chrome / Safari */
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+  width: 0;
+  height: 0;
 }
 
-body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+/* Firefox */
+* {
+  scrollbar-width: none;
 }
-/* PRINT MODE */
+
+/* IE / Edge */
+body {
+  -ms-overflow-style: none;
+}
+
+/* IMPORTANT:
+   Do NOT block overflow globally
+   (this was breaking images inside modal)
+*/
+body {
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   IMAGE SAFETY (PREVENT DISAPPEARING)
+============================================================ */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================================
+   FRAMER MOTION SAFETY
+============================================================ */
+
+/* Prevent accidental hiding */
+.framer-motion-div {
+  display: block;
+}
+
+/* ============================================================
+   PRINT MODE
+============================================================ */
+
 @media print {
+  html,
   body {
     background: white !important;
+    overflow: visible !important;
   }
 
-  .no-print,
+  /* Hide interactive UI only */
   button,
-  .framer-motion-div {
+  .no-print,
+  .print-hidden {
     display: none !important;
   }
 
+  /* Allow pages to break properly */
   .print-page {
     page-break-after: always;
-    padding: 40mm;
+    padding: 30mm 25mm;
   }
 
+  /* Images should never overflow page */
   img {
     max-width: 100%;
+    height: auto;
     page-break-inside: avoid;
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3,
+  p,
+  span {
     color: black !important;
   }
 }
