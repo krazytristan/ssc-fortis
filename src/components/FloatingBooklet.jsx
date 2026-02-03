@@ -1,6 +1,6 @@
 /* ============================================================
    FLOATING BOOKLET – SSC FORTIS
-   Newspaper-Style Accomplishment Report
+   Newspaper-Style Accomplishment Report (FIXED IMAGES)
 ============================================================ */
 
 import { useState, useEffect, useCallback } from "react";
@@ -34,6 +34,7 @@ export default function FloatingBooklet() {
   const [stage, setStage] = useState("cover");
   const [index, setIndex] = useState(0);
 
+  /* LOCK SCROLL + ESC */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     const esc = (e) => e.key === "Escape" && setOpen(false);
@@ -44,6 +45,7 @@ export default function FloatingBooklet() {
     };
   }, [open]);
 
+  /* PDF EXPORT */
   const exportPDF = useCallback(() => {
     const doc = new jsPDF("p", "mm", "a4");
 
@@ -67,6 +69,7 @@ export default function FloatingBooklet() {
 
   return (
     <>
+      {/* FLOATING BUTTON */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -80,17 +83,22 @@ export default function FloatingBooklet() {
         </button>
       )}
 
+      {/* MODAL */}
       <AnimatePresence>
         {open && (
           <>
+            {/* BACKDROP */}
             <div
               className="fixed inset-0 bg-black/60 z-40"
               onClick={() => setOpen(false)}
             />
 
+            {/* MODAL BOX */}
             <motion.div
               className="
-                fixed z-50 top-[54%] left-1/2
+                fixed z-50
+                top-[55%] md:top-1/2
+                left-1/2
                 w-[94%] max-w-6xl h-[88vh]
                 bg-white rounded-2xl shadow-2xl
                 overflow-hidden flex flex-col
@@ -99,7 +107,7 @@ export default function FloatingBooklet() {
               animate={{ scale: 1, x: "-50%", y: "-50%" }}
             >
               {/* HEADER */}
-              <div className="bg-maroon text-yellow px-5 py-3 flex justify-between">
+              <div className="bg-maroon text-yellow px-5 py-3 flex justify-between items-center">
                 <span className="text-xs tracking-widest">
                   SUPREME STUDENT COUNCIL – FORTIS
                 </span>
@@ -139,9 +147,7 @@ export default function FloatingBooklet() {
                 )}
 
                 {stage === "detail" && (
-                  <DetailMagazine
-                    data={SSC_ACCOMPLISHMENTS[index]}
-                  />
+                  <DetailMagazine data={SSC_ACCOMPLISHMENTS[index]} />
                 )}
               </div>
             </motion.div>
@@ -182,6 +188,7 @@ function TableOfContents({ items, onSelect }) {
       <h2 className="text-2xl font-bold text-maroon mb-6">
         Table of Contents
       </h2>
+
       <div className="space-y-4">
         {items.map((item, i) => (
           <button
@@ -213,6 +220,7 @@ function DetailMagazine({ data }) {
 
   return (
     <div className="h-full flex flex-col">
+      {/* PROGRESS */}
       <div className="h-1 bg-gray-200">
         <div
           className="h-full bg-maroon"
@@ -220,63 +228,65 @@ function DetailMagazine({ data }) {
         />
       </div>
 
+      {/* CONTENT */}
       <div className="flex-1 p-6 overflow-y-auto">
-        {/* ARTICLE – NEWSPAPER STYLE */}
+        {/* ARTICLE */}
         {pages[page] === "article" && (
-          <article className="newspaper text-gray-800">
-            <h2 className="text-4xl font-bold text-maroon mb-2">
-              {data.title}
-            </h2>
-            <p className="italic mb-6">{data.subtitle}</p>
+          <article className="newspaper-article text-gray-800">
+            <h2 className="headline">{data.title}</h2>
+            <p className="subhead">{data.subtitle}</p>
 
             {data.images?.[0] && (
               <img
                 src={data.images[0]}
                 alt={data.title}
-                className="
-                  w-full md:w-1/2
-                  float-none md:float-right
-                  mb-4 md:ml-6
-                  rounded-lg object-cover
-                "
               />
             )}
 
             <p>{data.text}</p>
 
             <p>
-              This accomplishment highlights the Supreme Student
-              Council’s commitment to leadership, collaboration,
-              and meaningful student engagement within the
-              academic community.
+              This initiative demonstrated the Supreme Student Council’s
+              ability to organize meaningful programs that foster unity,
+              leadership, and active student participation.
             </p>
 
             <p>
-              Through well-coordinated efforts and strong
-              participation, the initiative strengthened unity
-              and reinforced the Council’s role as a catalyst
-              for positive change.
+              Through collaboration and shared commitment, the activity
+              strengthened institutional values and promoted a culture
+              of service within the academic community.
             </p>
 
             {related && (
-              <p className="mt-6 italic text-sm text-gray-600">
-                Related SSC Event:{" "}
-                <strong>{related.title}</strong> ({related.date})
+              <p className="related">
+                Related SSC Event: <strong>{related.title}</strong> ({related.date})
               </p>
             )}
           </article>
         )}
 
-        {/* GALLERY */}
+        {/* GALLERY – FIXED IMAGE FIT */}
         {pages[page] === "gallery" && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.images.map((img, i) => (
-              <img
+              <div
                 key={i}
-                src={img}
-                alt={`Gallery ${i + 1}`}
-                className="h-36 md:h-44 w-full object-cover rounded-lg"
-              />
+                className="
+                  bg-white border rounded-xl p-3
+                  flex items-center justify-center
+                "
+              >
+                <img
+                  src={img}
+                  alt={`Gallery ${i + 1}`}
+                  className="
+                    max-h-[45vh]
+                    w-full
+                    object-contain
+                    rounded-lg
+                  "
+                />
+              </div>
             ))}
           </div>
         )}
@@ -291,6 +301,7 @@ function DetailMagazine({ data }) {
         )}
       </div>
 
+      {/* NAV */}
       <div className="p-4 flex justify-between border-t">
         <button onClick={() => setPage((p) => Math.max(p - 1, 0))}>
           ◀ Previous

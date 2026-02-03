@@ -97,3 +97,52 @@ img {
     color: black !important;
   }
 }
+/* ============================================================
+   MODERN NEWSPAPER ARTICLE
+============================================================ */
+
+.newspaper-article {
+  column-count: 1;
+  column-gap: 2.5rem;
+  text-align: justify;
+  line-height: 1.8;
+}
+
+@media (min-width: 768px) {
+  .newspaper-article {
+    column-count: 2;
+  }
+}
+
+.newspaper-article p {
+  margin-bottom: 1.2rem;
+}
+
+.newspaper-article img {
+  width: 100%;
+  margin: 1rem 0;
+  border-radius: 0.75rem;
+  break-inside: avoid;
+}
+
+.headline {
+  column-span: all;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: #7a1c1c;
+}
+
+.subhead {
+  column-span: all;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.related {
+  column-span: all;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}

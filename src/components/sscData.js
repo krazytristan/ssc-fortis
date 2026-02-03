@@ -40,11 +40,11 @@ export const SSC_ACCOMPLISHMENTS = [
     text:
       "A tribute honoring educators through performances, appreciation messages, and student-led initiatives that strengthened unity and gratitude within the academic community.",
 
-    cover: "assets/img1.jpg",
+    cover: "assets/img1.JPG",
     images: [
-      "assets/img1.jpg",
-      "assets/img2.jpg",
-      "assets/img3.jpg",
+      "assets/img1.JPG",
+      "assets/img2.JPG",
+      "assets/img3.JPG",
     ],
 
     relatedEvent: "lintech",
