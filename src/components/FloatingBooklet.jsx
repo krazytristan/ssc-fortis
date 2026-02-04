@@ -10,7 +10,7 @@
    ✔ 400+ LINES
 ============================================================ */
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import jsPDF from "jspdf";
 import { FaBookOpen } from "react-icons/fa";
@@ -103,7 +103,7 @@ export default function FloatingBooklet() {
       doc.setFontSize(16);
       doc.text(item.title, 20, 30);
       doc.setFontSize(12);
-      doc.text(item.text, 20, 45, { maxWidth: 170 });
+      doc.text(item.text || "", 20, 45, { maxWidth: 170 });
     });
 
     doc.save("SSC-FORTIS-Accomplishment-Report.pdf");
@@ -143,75 +143,76 @@ export default function FloatingBooklet() {
 
             <motion.div
               className="
-                fixed z-50
-                top-1/2 left-1/2
-                w-[94%] max-w-6xl
-                h-[calc(var(--vh)*92)]
-                md:h-[calc(var(--vh)*88)]
-                bg-white rounded-2xl shadow-2xl
-                overflow-hidden flex flex-col
+                fixed inset-0 z-50
+                flex items-center justify-center
+                px-2 sm:px-4
               "
-              initial={{ scale: 0.9, opacity: 0, x: "-50%", y: "-50%" }}
-              animate={{ scale: 1, opacity: 1, x: "-50%", y: "-50%" }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              {/* HEADER */}
-              <div className="bg-maroon text-yellow px-5 py-3 flex justify-between items-center">
-                <div className="flex flex-col">
-                  <span className="text-xs tracking-widest">
-                    SUPREME STUDENT COUNCIL – FORTIS
-                  </span>
-                  <span className="text-[10px] opacity-80">
-                    {stage.toUpperCase()}
-                  </span>
-                </div>
+              <div
+                className="
+                  w-full max-w-6xl
+                  h-[calc(var(--vh)*92)]
+                  md:h-[calc(var(--vh)*88)]
+                  bg-white rounded-2xl shadow-2xl
+                  overflow-hidden flex flex-col
+                "
+              >
+                {/* HEADER */}
+                <div className="bg-maroon text-yellow px-5 py-3 flex justify-between items-center">
+                  <div className="flex flex-col">
+                    <span className="text-xs tracking-widest">
+                      SUPREME STUDENT COUNCIL – FORTIS
+                    </span>
+                    <span className="text-[10px] opacity-80">
+                      {stage.toUpperCase()}
+                    </span>
+                  </div>
 
-                <div className="flex gap-2">
-                  {stage !== "cover" && (
+                  <div className="flex gap-2">
+                    {stage !== "cover" && (
+                      <button
+                        onClick={() => setStage("cover")}
+                        className="bg-yellow text-maroon px-3 py-1 rounded text-xs"
+                      >
+                        Back
+                      </button>
+                    )}
                     <button
-                      onClick={() => setStage("cover")}
+                      onClick={exportPDF}
                       className="bg-yellow text-maroon px-3 py-1 rounded text-xs"
                     >
-                      Back
+                      PDF
                     </button>
-                  )}
-                  <button
-                    onClick={exportPDF}
-                    className="bg-yellow text-maroon px-3 py-1 rounded text-xs"
-                  >
-                    PDF
-                  </button>
-                  <button onClick={() => setOpen(false)}>✕</button>
+                    <button onClick={() => setOpen(false)}>✕</button>
+                  </div>
                 </div>
-              </div>
 
-              {/* CONTENT */}
-              <div className="flex-1 min-h-0 overflow-hidden">
-                {stage === "cover" && (
-                  <CoverPage onClick={() => setStage("toc")} />
-                )}
+                {/* CONTENT */}
+                <div className="flex-1 min-h-0 overflow-hidden">
+                  {stage === "cover" && (
+                    <CoverPage onClick={() => setStage("toc")} />
+                  )}
 
-                {stage === "toc" && (
-                  <TableOfContents
-                    items={SSC_ACCOMPLISHMENTS}
-                    onSelect={(i) => {
-                      setIndex(i);
-                      setStage("detail");
-                    }}
-                  />
-                )}
+                  {stage === "toc" && (
+                    <TableOfContents
+                      items={SSC_ACCOMPLISHMENTS}
+                      onSelect={(i) => {
+                        setIndex(i);
+                        setStage("detail");
+                      }}
+                    />
+                  )}
 
-                {stage === "detail" && (
-                  <DetailMagazine
-                    data={SSC_ACCOMPLISHMENTS[index]}
-                  />
-                )}
-              </div>
-
-              {/* FOOTER */}
-              <div className="border-t px-4 py-2 text-[11px] text-gray-500 flex justify-between">
-                <span>Swipe left / right to navigate</span>
-                <span>Scroll to read</span>
+                  {stage === "detail" &&
+                    SSC_ACCOMPLISHMENTS[index] && (
+                      <DetailMagazine
+                        data={SSC_ACCOMPLISHMENTS[index]}
+                      />
+                    )}
+                </div>
               </div>
             </motion.div>
           </>
@@ -265,7 +266,7 @@ function TableOfContents({ items, onSelect }) {
       <div className="space-y-5">
         {items.map((item, i) => (
           <button
-            key={item.id}
+            key={item.id || i}
             onClick={() => onSelect(i)}
             className="
               block w-full text-left p-5
@@ -295,27 +296,39 @@ function DetailMagazine({ data }) {
   const [page, setPage] = useState(0);
   const [imgIndex, setImgIndex] = useState(0);
 
+  const images = Array.isArray(data.images) ? data.images : [];
+
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
   const IMAGE_SWIPE = 60;
-  const PAGE_SWIPE = 90;
 
   useEffect(() => {
     setImgIndex(0);
   }, [page, data]);
 
   const onImageStart = (e) =>
-    setTouchStart(e.targetTouches[0].clientX);
+    setTouchStart(e.touches[0].clientX);
+
   const onImageMove = (e) =>
-    setTouchEnd(e.targetTouches[0].clientX);
+    setTouchEnd(e.touches[0].clientX);
+
   const onImageEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const d = touchStart - touchEnd;
-    if (d > IMAGE_SWIPE && imgIndex < data.images.length - 1)
+    if (touchStart === null || touchEnd === null) return;
+
+    const distance = touchStart - touchEnd;
+
+    if (
+      distance > IMAGE_SWIPE &&
+      imgIndex < images.length - 1
+    ) {
       setImgIndex((i) => i + 1);
-    if (d < -IMAGE_SWIPE && imgIndex > 0)
+    }
+
+    if (distance < -IMAGE_SWIPE && imgIndex > 0) {
       setImgIndex((i) => i - 1);
+    }
+
     setTouchStart(null);
     setTouchEnd(null);
   };
@@ -345,11 +358,13 @@ function DetailMagazine({ data }) {
               {data.subtitle}
             </p>
 
-            <img
-              src={data.images[0]}
-              alt={data.title}
-              className="w-full max-h-[60vh] object-contain rounded-xl bg-gray-100"
-            />
+            {images[0] && (
+              <img
+                src={images[0]}
+                alt={data.title}
+                className="w-full max-h-[65vh] object-cover rounded-none"
+              />
+            )}
 
             <p>{data.text}</p>
 
@@ -370,43 +385,32 @@ function DetailMagazine({ data }) {
             <p>
               The execution phase showcased strong collaboration,
               adaptability, and commitment from student leaders and
-              volunteers alike. Challenges were addressed through
-              teamwork and problem-solving, reinforcing the council’s
-              capacity for effective governance.
-            </p>
-
-            <p>
-              Feedback gathered after the activity reflected positive
-              reception and highlighted the importance of sustaining
-              similar programs in the future.
+              volunteers alike.
             </p>
 
             <p>
               Ultimately, this initiative stands as a testament to the
-              council’s dedication to service, responsibility, and
-              continuous improvement in student leadership.
+              council’s dedication to service and responsibility.
             </p>
           </article>
         )}
 
         {/* GALLERY */}
-        {pages[page] === "gallery" && (
+        {pages[page] === "gallery" && images.length > 0 && (
           <div
             className="h-full flex flex-col items-center justify-center gap-4 select-none"
             onTouchStart={onImageStart}
             onTouchMove={onImageMove}
             onTouchEnd={onImageEnd}
           >
-            <div className="bg-white border rounded-2xl p-4 w-full max-w-4xl shadow-md">
-              <img
-                src={data.images[imgIndex]}
-                alt={`Gallery ${imgIndex + 1}`}
-                className="w-full max-h-[65vh] object-contain rounded-lg bg-gray-100 cursor-zoom-in active:scale-110 transition"
-              />
-            </div>
+            <img
+              src={images[imgIndex]}
+              alt={`Gallery ${imgIndex + 1}`}
+              className="w-full max-h-[75vh] object-contain rounded-none transition"
+            />
 
             <div className="flex gap-2">
-              {data.images.map((_, i) => (
+              {images.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setImgIndex(i)}
