@@ -142,16 +142,14 @@ export default function FloatingBooklet() {
             />
 
             <motion.div
-              className="
-                fixed inset-0 z-50
-                flex items-center justify-center
-                px-2 sm:px-4
-              "
+              className="fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}   // ✅ OUTSIDE CLICK
             >
               <div
+                onClick={(e) => e.stopPropagation()} // ✅ INSIDE SAFE
                 className="
                   w-full max-w-6xl
                   h-[calc(var(--vh)*92)]

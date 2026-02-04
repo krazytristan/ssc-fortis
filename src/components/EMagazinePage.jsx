@@ -1,7 +1,23 @@
+import { useEffect } from "react";
 import FloatingBooklet from "./FloatingBooklet";
 import { SSC_ANNOUNCEMENTS } from "./sscData";
 
 export default function EMagazinePage() {
+  /**
+   * Auto-open FloatingBooklet kapag E-Magazine page
+   * Gumagana kahit walang forceOpen prop support
+   */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const trigger = document.querySelector(
+        'button[aria-label="open-booklet"], button:has(svg)'
+      );
+      if (trigger) trigger.click();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main
       className="
@@ -12,7 +28,7 @@ export default function EMagazinePage() {
         print:bg-white
       "
     >
-      {/* HERO HEADER */}
+      {/* ================= HERO HEADER ================= */}
       <header
         className="
           bg-maroon text-yellow
@@ -29,12 +45,19 @@ export default function EMagazinePage() {
         >
           SSC FORTIS E-Magazine
         </h1>
+
         <p className="mt-2 text-sm tracking-widest opacity-90">
           {SSC_ANNOUNCEMENTS.academicYear}
         </p>
+
+        <p className="mt-4 text-sm max-w-2xl mx-auto opacity-90">
+          A digital, interactive publication showcasing the
+          accomplishments, leadership initiatives, and milestones
+          of the Supreme Student Council.
+        </p>
       </header>
 
-      {/* MAGAZINE SECTION */}
+      {/* ================= MAGAZINE SECTION ================= */}
       <section
         className="
           relative
@@ -44,10 +67,10 @@ export default function EMagazinePage() {
           print:hidden
         "
       >
-        <FloatingBooklet forceOpen />
+        <FloatingBooklet />
       </section>
 
-      {/* PRINT FOOTER */}
+      {/* ================= PRINT FOOTER ================= */}
       <footer
         className="
           hidden print:block
