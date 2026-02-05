@@ -49,7 +49,7 @@ export default function Officers() {
       id="officers"
       className="relative py-20 px-4 overflow-hidden"
       style={{
-        backgroundImage: "url(assets/officers-bg.jpg)",
+        backgroundImage: "url(assets/ssc-bg2.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
