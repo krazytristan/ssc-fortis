@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 /* ================= OFFICERS DATA ================= */
@@ -13,14 +13,14 @@ const members = [
   { name: "Kathryne Anne Garcia Sapon", role: "Treasurer | Auditor", photo: "assets/Kathsapon.JPG", type: "Officer" },
   { name: "Nadine G. De Guzman", role: "Board of Director", photo: "assets/nadine.jpg", type: "Officer" },
   { name: "Marvin Paul Orozco", role: "Board of Director", photo: "assets/marvin.jpg", type: "Officer" },
-  { name: "Benji Alurin Maquiñana", role: "Committee Head – Gender and Development", photo: "assets/benji.jpg", type: "Officer" },
-  { name: "Rodolfo C. Guce III", role: "Committee Head – Health and Sports", photo: "assets/dither.JPG", type: "Officer" },
-  { name: "Charles Lois Neil Tan Viñalon", role: "Committee Head – Technical Operations", photo: "assets/CharlesLois.JPG", type: "Officer" },
-  { name: "Bejay Allen G. Macatangay", role: "Committee Head – Technical Operations", photo: "assets/bejay.jpg", type: "Officer" },
+  { name: "Benji Alurin Maquiñana", role: "Committee Head – GAD", photo: "assets/benji.jpg", type: "Officer" },
+  { name: "Rodolfo C. Guce III", role: "Committee Head – Health & Sports", photo: "assets/dither.JPG", type: "Officer" },
+  { name: "Charles Lois Neil Tan Viñalon", role: "Committee Head – Tech Ops", photo: "assets/CharlesLois.JPG", type: "Officer" },
+  { name: "Bejay Allen G. Macatangay", role: "Committee Head – Tech Ops", photo: "assets/bejay.jpg", type: "Officer" },
   { name: "Florencio John B. Fonte III", role: "Graphic Designer / Layout", photo: "assets/fonte.jpg", type: "Officer" },
 ];
 
-// duplicate for seamless loop
+// duplicate for seamless infinite scroll
 const loopMembers = [...members, ...members];
 
 /* ================= COMPONENT ================= */
@@ -29,33 +29,44 @@ export default function Officers() {
   const controls = useAnimation();
   const trackRef = useRef(null);
   const containerRef = useRef(null);
-  const [maxDrag, setMaxDrag] = useState(0);
 
-  /* CALCULATE WIDTH SAFELY */
-  const calculate = () => {
+  const [maxDrag, setMaxDrag] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const autoSpeed = 55; // seconds
+
+  /* AUTO SCROLL */
+  const startAutoScroll = useCallback(
+    (trackWidth, fromX = 0) => {
+      controls.start({
+        x: [fromX, -trackWidth],
+        transition: {
+          duration: autoSpeed,
+          ease: "linear",
+          repeat: Infinity,
+        },
+      });
+    },
+    [controls]
+  );
+
+  /* CALCULATE WIDTH */
+  const calculate = useCallback(() => {
     if (!trackRef.current || !containerRef.current) return;
 
     const trackWidth = trackRef.current.scrollWidth / 2;
     const containerWidth = containerRef.current.offsetWidth;
+    const limit = trackWidth - containerWidth;
 
-    const dragLimit = trackWidth - containerWidth;
-    setMaxDrag(dragLimit > 0 ? dragLimit : 0);
+    setMaxDrag(limit > 0 ? limit : 0);
+    startAutoScroll(trackWidth, currentX);
+  }, [currentX, startAutoScroll]);
 
-    controls.start({
-      x: [0, -trackWidth],
-      transition: {
-        duration: 55,
-        ease: "linear",
-        repeat: Infinity,
-      },
-    });
-  };
-
+  /* INIT + RESIZE */
   useEffect(() => {
     calculate();
     window.addEventListener("resize", calculate);
     return () => window.removeEventListener("resize", calculate);
-  }, []);
+  }, [calculate]);
 
   return (
     <section
@@ -79,19 +90,38 @@ export default function Officers() {
         <div ref={containerRef} className="overflow-hidden">
           <motion.div
             ref={trackRef}
-            className="flex space-x-5 cursor-grab active:cursor-grabbing"
+            className="flex space-x-5 cursor-grab active:cursor-grabbing touch-pan-x"
             animate={controls}
             drag="x"
-            dragConstraints={{ left: -maxDrag, right: 0 }} // ✅ FIXED
+            dragConstraints={{ left: -maxDrag, right: 0 }}
+            dragElastic={0.12}
+            dragMomentum
             whileTap={{ cursor: "grabbing" }}
+
+            /* PAUSE AUTO */
             onMouseEnter={() => controls.stop()}
-            onMouseLeave={calculate}
+            onTouchStart={() => controls.stop()}
             onDragStart={() => controls.stop()}
-            onDragEnd={calculate}
+
+            /* TRACK POSITION */
+            onUpdate={(latest) => {
+              if (latest.x !== undefined) setCurrentX(latest.x);
+            }}
+
+            /* RESUME AUTO */
+            onMouseLeave={() =>
+              startAutoScroll(trackRef.current.scrollWidth / 2, currentX)
+            }
+            onTouchEnd={() =>
+              startAutoScroll(trackRef.current.scrollWidth / 2, currentX)
+            }
+            onDragEnd={() =>
+              startAutoScroll(trackRef.current.scrollWidth / 2, currentX)
+            }
           >
             {loopMembers.map((member, i) => (
               <div
-                key={i}
+                key={`${member.name}-${i}`}
                 className="
                   flex-shrink-0 w-56
                   bg-gradient-to-br from-maroon to-darkblue
@@ -122,15 +152,9 @@ export default function Officers() {
 
                 {/* SOCIAL ICONS */}
                 <div className="flex justify-center space-x-4 text-yellow/70">
-                  <button className="hover:text-yellow transition">
-                    <FaFacebookF size={14} />
-                  </button>
-                  <button className="hover:text-yellow transition">
-                    <FaInstagram size={14} />
-                  </button>
-                  <button className="hover:text-yellow transition">
-                    <FaTwitter size={14} />
-                  </button>
+                  <FaFacebookF size={14} />
+                  <FaInstagram size={14} />
+                  <FaTwitter size={14} />
                 </div>
 
                 {/* TYPE BADGE */}

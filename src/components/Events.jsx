@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
+import { useState } from "react";
+
+/* ================= EVENTS DATA ================= */
 
 const events = [
   {
@@ -26,9 +29,36 @@ const events = [
     description:
       "Values-driven pageant advocating SDGs, environmental awareness, and youth leadership.",
   },
+
+  /* ===== NEW SSC PROGRAMS ===== */
+
+  {
+    title: "Project ACE",
+    date: "Ongoing",
+    description:
+      "Assistant Care with Excellence (ACE) is an SSC-led student support initiative focused on academic assistance, peer mentoring, and student welfare.",
+  },
+  {
+    title: "SSC Printing Services",
+    date: "Ongoing",
+    description:
+      "Affordable and student-friendly printing services provided by the SSC to support academic and organizational needs.",
+  },
+  {
+    title: "hAMAgsikan",
+    date: "To Be Announced",
+    description:
+      "A cultural and arts-centered program celebrating Filipino creativity, music, spoken word, and campus talent.",
+  },
 ];
 
+/* ================= COMPONENT ================= */
+
 export default function Events() {
+  const [showMore, setShowMore] = useState(false);
+
+  const visibleEvents = showMore ? events : events.slice(0, 4);
+
   return (
     <section
       id="events"
@@ -38,14 +68,16 @@ export default function Events() {
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-yellow/10 rounded-full blur-3xl" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-maroon/20 rounded-full blur-3xl" />
 
+      {/* TITLE */}
       <h2 className="text-4xl md:text-5xl font-bold mb-14 text-center tracking-wide relative z-10">
-        Upcoming Events
+        Upcoming SSC Events
       </h2>
 
+      {/* EVENTS GRID */}
       <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
-        {events.map((event, i) => (
+        {visibleEvents.map((event, i) => (
           <motion.div
-            key={i}
+            key={`${event.title}-${i}`}
             className="
               bg-white text-darkblue p-7 rounded-3xl
               shadow-xl hover:shadow-2xl
@@ -55,7 +87,7 @@ export default function Events() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.15 }}
+            transition={{ duration: 0.6, delay: i * 0.12 }}
           >
             {/* DATE */}
             <div className="flex items-center gap-3 mb-4 text-maroon">
@@ -75,12 +107,28 @@ export default function Events() {
               {event.description}
             </p>
 
-            {/* COMING SOON */}
+            {/* STATUS */}
             <div className="mt-6 self-start bg-maroon text-yellow px-5 py-2 rounded-full text-sm font-bold tracking-wide shadow-md">
               🚧 Coming Soon
             </div>
           </motion.div>
         ))}
+      </div>
+
+      {/* SEE MORE BUTTON */}
+      <div className="relative z-10 mt-14 text-center">
+        <button
+          onClick={() => setShowMore((prev) => !prev)}
+          className="
+            bg-yellow text-darkblue
+            px-8 py-3 rounded-full
+            font-bold tracking-wide
+            shadow-lg hover:shadow-xl
+            transition-all duration-300
+          "
+        >
+          {showMore ? "See Less Events ↑" : "See More Events ↓"}
+        </button>
       </div>
     </section>
   );
