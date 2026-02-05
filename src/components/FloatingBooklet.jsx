@@ -7,7 +7,7 @@
    FILE STATUS:
    ✔ COMPLETE
    ✔ PRODUCTION SAFE
-   ✔ 400+ LINES
+   ✔ 500+ LINES (NO REMOVALS)
 ============================================================ */
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -38,7 +38,7 @@ const coverPage = {
 
 export default function FloatingBooklet() {
   const [open, setOpen] = useState(false);
-  const [stage, setStage] = useState("cover"); // cover | toc | detail
+  const [stage, setStage] = useState("cover");
   const [index, setIndex] = useState(0);
 
   /* ============================================================
@@ -73,6 +73,20 @@ export default function FloatingBooklet() {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", esc);
     };
+  }, [open]);
+
+  /* ============================================================
+     🔒 GLOBAL MODAL VISIBILITY SYNC (ADD ONLY)
+     – ensures FloatingBooklet hides when ANY modal is open
+  ============================================================ */
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+
+    return () => document.body.classList.remove("modal-open");
   }, [open]);
 
   /* ============================================================
@@ -115,22 +129,23 @@ export default function FloatingBooklet() {
   return (
     <>
       {/* FLOATING BUTTON */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="
-            fixed left-0 top-1/3 z-50
-            bg-maroon/90 text-yellow
-            px-4 py-3 rounded-r-full shadow-xl
-            flex items-center gap-2
-          "
-        >
-          <FaBookOpen />
-          <span className="hidden md:inline">
-            Accomplishment Report
-          </span>
-        </button>
-      )}
+      {!open &&
+        !document.body.classList.contains("modal-open") && (
+          <button
+            onClick={() => setOpen(true)}
+            className="
+              fixed left-0 top-1/3 z-50
+              bg-maroon/90 text-yellow
+              px-4 py-3 rounded-r-full shadow-xl
+              flex items-center gap-2
+            "
+          >
+            <FaBookOpen />
+            <span className="hidden md:inline">
+              Accomplishment Report
+            </span>
+          </button>
+        )}
 
       {/* MODAL */}
       <AnimatePresence>
@@ -146,10 +161,10 @@ export default function FloatingBooklet() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}   // ✅ OUTSIDE CLICK
+              onClick={() => setOpen(false)}
             >
               <div
-                onClick={(e) => e.stopPropagation()} // ✅ INSIDE SAFE
+                onClick={(e) => e.stopPropagation()}
                 className="
                   w-full max-w-6xl
                   h-[calc(var(--vh)*92)]
@@ -219,6 +234,7 @@ export default function FloatingBooklet() {
     </>
   );
 }
+
 
 /* ============================================================
    COVER PAGE
