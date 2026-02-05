@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 /* ================= OFFICERS DATA ================= */
@@ -28,21 +28,34 @@ const loopMembers = [...members, ...members];
 export default function Officers() {
   const controls = useAnimation();
   const trackRef = useRef(null);
+  const containerRef = useRef(null);
+  const [maxDrag, setMaxDrag] = useState(0);
 
-  useEffect(() => {
-    if (!trackRef.current) return;
+  /* CALCULATE WIDTH SAFELY */
+  const calculate = () => {
+    if (!trackRef.current || !containerRef.current) return;
 
-    const width = trackRef.current.scrollWidth / 2;
+    const trackWidth = trackRef.current.scrollWidth / 2;
+    const containerWidth = containerRef.current.offsetWidth;
+
+    const dragLimit = trackWidth - containerWidth;
+    setMaxDrag(dragLimit > 0 ? dragLimit : 0);
 
     controls.start({
-      x: [0, -width],
+      x: [0, -trackWidth],
       transition: {
         duration: 55,
         ease: "linear",
         repeat: Infinity,
       },
     });
-  }, [controls]);
+  };
+
+  useEffect(() => {
+    calculate();
+    window.addEventListener("resize", calculate);
+    return () => window.removeEventListener("resize", calculate);
+  }, []);
 
   return (
     <section
@@ -63,14 +76,18 @@ export default function Officers() {
           SSC Officers
         </h2>
 
-        <div className="overflow-hidden">
+        <div ref={containerRef} className="overflow-hidden">
           <motion.div
             ref={trackRef}
             className="flex space-x-5 cursor-grab active:cursor-grabbing"
             animate={controls}
             drag="x"
-            dragConstraints={{ left: -9999, right: 0 }}
+            dragConstraints={{ left: -maxDrag, right: 0 }} // ✅ FIXED
             whileTap={{ cursor: "grabbing" }}
+            onMouseEnter={() => controls.stop()}
+            onMouseLeave={calculate}
+            onDragStart={() => controls.stop()}
+            onDragEnd={calculate}
           >
             {loopMembers.map((member, i) => (
               <div
@@ -105,13 +122,13 @@ export default function Officers() {
 
                 {/* SOCIAL ICONS */}
                 <div className="flex justify-center space-x-4 text-yellow/70">
-                  <button aria-label="Facebook" className="hover:text-yellow transition">
+                  <button className="hover:text-yellow transition">
                     <FaFacebookF size={14} />
                   </button>
-                  <button aria-label="Instagram" className="hover:text-yellow transition">
+                  <button className="hover:text-yellow transition">
                     <FaInstagram size={14} />
                   </button>
-                  <button aria-label="Twitter" className="hover:text-yellow transition">
+                  <button className="hover:text-yellow transition">
                     <FaTwitter size={14} />
                   </button>
                 </div>
