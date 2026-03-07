@@ -161,10 +161,10 @@ function EventGallery() {
       </div>
 
       <div className="grid md:grid-cols-4 gap-4">
-        <img src="/gallery/1.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
-        <img src="/gallery/2.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
-        <img src="/gallery/3.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
-        <img src="/gallery/4.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
+        <img src="assets/gallery/1.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
+        <img src="assets/gallery/2.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
+        <img src="assets/gallery/3.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
+        <img src="assets/gallery/4.jpg" className="rounded-xl shadow-lg hover:scale-105 transition" />
       </div>
     </div>
   );
